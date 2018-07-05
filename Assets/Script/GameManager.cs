@@ -107,8 +107,8 @@ public class GameManager : MonoBehaviour
                 sangtae = State.UndoFunction;
             }
 
-        }*/
-        #endregion
+        }
+        */
         else if (sangtae == State.CheckingMatches)
         {
             SpecificGen();

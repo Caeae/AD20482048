@@ -5,17 +5,17 @@ using UnityEngine;
 
 
 public class TurnManager : MonoBehaviour {
-    GameObject Restart;
+    GameObject RestartGr;
     GameObject RestartButton;
     GameObject CellFull;
     GameManager GameSystem;
     int Undostack = 20;
     // Use this for initialization
     void Start () {
-        Restart = GameObject.Find("Restart");
+        RestartGr = GameObject.Find("RestartGreem");
         RestartButton = GameObject.Find("RestartMain");
         CellFull = GameObject.Find("Full Cell");
-        Restart.SetActive(false);
+        RestartGr.SetActive(false);
         RestartButton.SetActive(false);
         CellFull.SetActive(false);
         GameSystem = GameObject.Find("WholeSystem").GetComponent<GameManager>();
@@ -26,7 +26,7 @@ public class TurnManager : MonoBehaviour {
         if (GameManager.sangtae == GameManager.State.GameOver)
         {
             Time.timeScale = 0;
-            Restart.SetActive(true);
+            RestartGr.SetActive(true);
             RestartButton.SetActive(true);
         }
         else if (GameManager.sangtae == GameManager.State.Loaded)
