@@ -119,7 +119,6 @@ public class GameManager : MonoBehaviour
                 Undostack = 20;
                 MoveCellSaveToForward();
                 sangtae = State.WaitingForInput;
-
             }
             else
             {

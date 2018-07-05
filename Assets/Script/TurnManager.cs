@@ -5,16 +5,16 @@ using UnityEngine;
 
 
 public class TurnManager : MonoBehaviour {
-    GameObject RestartGr;
-    GameObject RestartButton;
-    GameObject CellFull;
+    public GameObject RestartGr;
+    public GameObject RestartButton;
+    public GameObject CellFull;
     GameManager GameSystem;
     int Undostack = 20;
     // Use this for initialization
     void Start () {
-        RestartGr = GameObject.Find("RestartGreem");
+        /*RestartGr = GameObject.Find("RestartGreem");
         RestartButton = GameObject.Find("RestartMain");
-        CellFull = GameObject.Find("Full Cell");
+        CellFull = GameObject.Find("Full Cell");*/
         RestartGr.SetActive(false);
         RestartButton.SetActive(false);
         CellFull.SetActive(false);
