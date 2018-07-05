@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
         if (Health <= 0) sangtae = State.GameOver;
         if (enemy.EnemyDeath())
         {
-            sangtae = State.Win;
+            //sangtae = State.Win;
         }
         if (sangtae == State.GameOver)
         {
