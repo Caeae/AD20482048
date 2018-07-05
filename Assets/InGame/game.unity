@@ -2924,6 +2924,7 @@ GameObject:
   - component: {fileID: 1857948701}
   - component: {fileID: 1857948700}
   - component: {fileID: 1857948702}
+  - component: {fileID: 1857948703}
   m_Layer: 0
   m_Name: WholeSystem
   m_TagString: Untagged
@@ -2945,6 +2946,7 @@ MonoBehaviour:
   ObjCell: {fileID: 1095739186206796, guid: dbe5ab04a4b5d124b8bce4b5af7e3864, type: 2}
   EmptyCell: {fileID: 1765163812089686, guid: b26d20c6c129bcf46a1f5039f38b6223, type: 2}
   Restart: {fileID: 2032010161}
+  ReGreem: {fileID: 2030059620}
   CellFull: {fileID: 845329425}
 --- !u!4 &1857948701
 Transform:
@@ -2975,6 +2977,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjCell: {fileID: 1095739186206796, guid: dbe5ab04a4b5d124b8bce4b5af7e3864, type: 2}
   EmptyCell: {fileID: 1765163812089686, guid: b26d20c6c129bcf46a1f5039f38b6223, type: 2}
+--- !u!114 &1857948703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1857948699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1cc4c2072b1f0743b0d282905d563b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1889204157
 GameObject:
   m_ObjectHideFlags: 0

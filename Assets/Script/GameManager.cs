@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     int DamageCool = 180;
     int displayCooldown = 0;
     public GameObject Restart;
-    GameObject ReGreem;
+    public GameObject ReGreem;
     public GameObject CellFull;
     public static bool gameover = false;
 
@@ -37,7 +37,8 @@ public class GameManager : MonoBehaviour
         WaitingForInput,
         CheckingMatches,
         UndoFunction,
-        GameOver
+        GameOver,
+        Win
     }
     public static State sangtae;
     Enemy enemy;
@@ -45,8 +46,7 @@ public class GameManager : MonoBehaviour
     {
         Cellsis = new List<GameObject>();
         turn = 0;
-        Byte = 0;
-        ReGreem = GameObject.Find("Restart");
+        Byte = 0;        
         for (int l = 0; l < 21; l++) for (i = 0; i < 4; i++) for (j = 0; j < 4; j++)
                 {
                     Cell_save[l, i, j] = 0;
@@ -70,14 +70,17 @@ public class GameManager : MonoBehaviour
         }
         DamageCool++;
         if (Health <= 0) sangtae = State.GameOver;
-        if(enemy.EnemyDeath())
+        if (enemy.EnemyDeath())
+        {
+            sangtae = State.Win;
+        }
         if (sangtae == State.GameOver)
         {
             Time.timeScale = 0;
             Restart.SetActive(true);
             ReGreem.SetActive(true);
         }
-        else if (sangtae == State.Loaded)
+        /*else if (sangtae == State.Loaded)
         {
             //처음 시작할때 블록 1~2개 젠됨
             GenerateRandomCell();
@@ -104,7 +107,7 @@ public class GameManager : MonoBehaviour
                 sangtae = State.UndoFunction;
             }
 
-        }
+        }*/
         #endregion
         else if (sangtae == State.CheckingMatches)
         {
