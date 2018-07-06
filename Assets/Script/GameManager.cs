@@ -30,7 +30,8 @@ public class GameManager : MonoBehaviour
     public static int Byte = 0;
     public static List<GameObject> Cellsis;
     int i, j;
-    int[,,] Cell_save = new int[21, 4, 5];
+    int[,,] Cell_save = new int[21, 4, 4];
+    int[] Byte_Save = new int[21];
     //[n,3,4]에는 Byte값을 저장시킴
     public enum State
     {
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
         for (int l = 0; l < 21; l++) for (i = 0; i < 4; i++) for (j = 0; j < 4; j++)
                 {
                     Cell_save[l, i, j] = 0;
+                    Byte_Save[l] = 0;
                 }
         Restart.SetActive(false);
         CellFull.SetActive(false);
@@ -302,16 +304,17 @@ public class GameManager : MonoBehaviour
         for (int n = 19; n >= 0; n--) for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++)
                 {
                     Cell_save[n + 1, i, j] = Cell_save[n, i, j];
-                    Cell_save[n + 1, i, 4] = Cell_save[n, i, 4];
+                    Byte_Save[n + 1] = Byte_Save[n];
                 }
         for (i = 0; i < 4; i++) for (j = 0; j < 4; j++)
             {
                 GameObject Obj = GetObjectAtGridPosition(i, j);
                 Cell ObjCelll = Obj.GetComponent<Cell>();
                 if (Obj != EmptyCell) Cell_save[0, i, j] = ObjCelll.value;
-                else Cell_save[0, i, j] = 0;                
+                else Cell_save[0, i, j] = 0;
+                Byte_Save[0] = Byte;
             }
-        Cell_save[0, 3, 4] = Byte;
+        
     }
 
     public void MoveCellLoadToBack()
@@ -320,11 +323,12 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++)     {
                 for (int n = 0; n < 20; n++)    {
                     Cell_save[n, i, j] = Cell_save[n + 1, i, j];
-                    Cell_save[n, 3, 4] = Cell_save[n+1, 3, 4];
+                    Byte_Save[n] = Byte_Save[n + 1];
                 }                
                 Cell_save[20, i, j] = 0;
+                Byte_Save[20] = 0;
             }
-        Cell_save[20, 3, 4] = 0;
+        
         for (i = 0; i < 4; i++) for (j = 0; j < 4; j++)   {
                 GameObject Obj = GetObjectAtGridPosition(i, j);
                 if (Cell_save[0, i, j] != 0 && Obj == EmptyCell)
@@ -343,7 +347,7 @@ public class GameManager : MonoBehaviour
                 {                    
                     Obj.GetComponent<Cell>().value = Cell_save[0, i, j];
                 }
-                Byte = Cell_save[0, 3, 4];
+                Byte = Byte_Save[0];
             }
         turn = turn - 1;
         //이후 cellSave[0]에 맞춰서 현재 보드의 상황을 변경하면 undo가 돌아감.

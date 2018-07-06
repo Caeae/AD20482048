@@ -25,7 +25,7 @@ public class MovingScript : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        GameManager.Byte = ScoreHap;
+        
         if (GameManager.sangtae == GameManager.State.WaitingForInput)
         {
  
@@ -34,6 +34,7 @@ public class MovingScript : MonoBehaviour {
                 if (MoveCellsLeft())
                 {
                     GameManager.sangtae = GameManager.State.CheckingMatches;
+                    GameManager.Byte = ScoreHap;
                 }
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -41,6 +42,7 @@ public class MovingScript : MonoBehaviour {
                 if (MoveCellsRight())
                 {
                     GameManager.sangtae = GameManager.State.CheckingMatches;
+                    GameManager.Byte = ScoreHap;
                 }
             }
             else if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -48,6 +50,7 @@ public class MovingScript : MonoBehaviour {
                 if (MoveCellsUp())
                 {
                     GameManager.sangtae = GameManager.State.CheckingMatches;
+                    GameManager.Byte = ScoreHap;
                 }
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -55,6 +58,7 @@ public class MovingScript : MonoBehaviour {
                 if (MoveCellsDown())
                 {
                     GameManager.sangtae = GameManager.State.CheckingMatches;
+                    GameManager.Byte = ScoreHap;
                 }
             }
         }
