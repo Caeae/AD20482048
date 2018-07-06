@@ -30,7 +30,8 @@ public class GameManager : MonoBehaviour
     public static int Byte = 0;
     public static List<GameObject> Cellsis;
     int i, j;
-    int[,,] Cell_save = new int[21, 4, 4];
+    int[,,] Cell_save = new int[21, 4, 5];
+    //[n,3,4]에는 Byte값을 저장시킴
     public enum State
     {
         Loaded,
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
         Win
     }
     public static State sangtae;
-    Enemy enemy;
+    
     void Start()
     {
         Cellsis = new List<GameObject>();
@@ -55,7 +56,7 @@ public class GameManager : MonoBehaviour
         CellFull.SetActive(false);
         ReGreem.SetActive(false);
         sangtae = State.Loaded;
-        enemy = GameObject.Find("Enemy").GetComponent<Enemy>();
+        
     }
 
     // Update is called once per frame
@@ -69,83 +70,9 @@ public class GameManager : MonoBehaviour
             DamageCool = 0;
         }
         DamageCool++;
-        if (Health <= 0) sangtae = State.GameOver;
-        if (enemy.EnemyDeath())
-        {
-            //sangtae = State.Win;
-        }
-        if (sangtae == State.GameOver)
-        {
-            Time.timeScale = 0;
-            Restart.SetActive(true);
-            ReGreem.SetActive(true);
-        }
-        /*else if (sangtae == State.Loaded)
-        {
-            //처음 시작할때 블록 1~2개 젠됨
-            GenerateRandomCell();
-            GenerateRandomCell();
-            sangtae = State.WaitingForInput;
-        }
-        else if (sangtae == State.WaitingForInput)
-        {
-            #region 키입력 확인   
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                SceneManager.LoadScene("game");
-                sangtae = State.Loaded;
-                Cellsis.Clear();
-                turn = 0;
-                Byte = 0;
-            }
-            else if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Application.Quit();
-            }
-            else if (Input.GetKeyDown(KeyCode.Q))
-            {
-                sangtae = State.UndoFunction;
-            }
-
-        }
-        */
-        else if (sangtae == State.CheckingMatches)
-        {
-            SpecificGen();
-            if (CheckForMovesLeft())
-            {
-                ReadyCellsForUpgrading();
-                turn++;
-                Undostack = 20;
-                MoveCellSaveToForward();
-                sangtae = State.WaitingForInput;
-            }
-            else
-            {
-                RemoveFullCell();
-                sangtae = State.WaitingForInput;                
-            }
-        }
-        else if (sangtae == State.UndoFunction)
-        {
-            if (turn > 1)
-                if (Undostack > 0)
-                {
-                    Undostack--;
-                    MoveCellLoadToBack();
-                    sangtae = State.WaitingForInput;
-                }
-                else
-                {
-                    Debug.Log("20번 이상은 할 수 없습니다");
-                    sangtae = State.WaitingForInput;
-                }
-        }
-
-            RestCellleft = 0;
-            for (i = 0; i < 4; i++) for (j = 0; j < 4; j++)
-                {
-                    if (GetObjectAtGridPosition(i, j) == EmptyCell)
+        RestCellleft = 0;
+        for (i = 0; i < 4; i++) for (j = 0; j < 4; j++)  {
+                if (GetObjectAtGridPosition(i, j) == EmptyCell)
                     {
                         RestCellleft++;
                     }
@@ -375,14 +302,16 @@ public class GameManager : MonoBehaviour
         for (int n = 19; n >= 0; n--) for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++)
                 {
                     Cell_save[n + 1, i, j] = Cell_save[n, i, j];
+                    Cell_save[n + 1, i, 4] = Cell_save[n, i, 4];
                 }
         for (i = 0; i < 4; i++) for (j = 0; j < 4; j++)
             {
                 GameObject Obj = GetObjectAtGridPosition(i, j);
                 Cell ObjCelll = Obj.GetComponent<Cell>();
                 if (Obj != EmptyCell) Cell_save[0, i, j] = ObjCelll.value;
-                else Cell_save[0, i, j] = 0;
+                else Cell_save[0, i, j] = 0;                
             }
+        Cell_save[0, 3, 4] = Byte;
     }
 
     public void MoveCellLoadToBack()
@@ -391,9 +320,11 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++)     {
                 for (int n = 0; n < 20; n++)    {
                     Cell_save[n, i, j] = Cell_save[n + 1, i, j];
-                }
+                    Cell_save[n, 3, 4] = Cell_save[n+1, 3, 4];
+                }                
                 Cell_save[20, i, j] = 0;
-            }        
+            }
+        Cell_save[20, 3, 4] = 0;
         for (i = 0; i < 4; i++) for (j = 0; j < 4; j++)   {
                 GameObject Obj = GetObjectAtGridPosition(i, j);
                 if (Cell_save[0, i, j] != 0 && Obj == EmptyCell)
@@ -402,7 +333,6 @@ public class GameManager : MonoBehaviour
                     Cellsis.Add(NewCell);
                     NewCell.GetComponent<Cell>().value = Cell_save[0, i, j];                    
                 }
-
                 else if (Cell_save[0, i, j] == 0 && Obj != EmptyCell)
                 {
                     GameObject DeleteCell = GetObjectAtGridPosition(i, j);
@@ -413,6 +343,7 @@ public class GameManager : MonoBehaviour
                 {                    
                     Obj.GetComponent<Cell>().value = Cell_save[0, i, j];
                 }
+                Byte = Cell_save[0, 3, 4];
             }
         turn = turn - 1;
         //이후 cellSave[0]에 맞춰서 현재 보드의 상황을 변경하면 undo가 돌아감.

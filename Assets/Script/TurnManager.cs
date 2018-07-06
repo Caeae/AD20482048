@@ -8,6 +8,8 @@ public class TurnManager : MonoBehaviour {
     public GameObject RestartGr;
     public GameObject RestartButton;
     public GameObject CellFull;
+    public GameObject Win;
+    Enemy enemy;
     GameManager GameSystem;
     int Undostack = 20;
     // Use this for initialization
@@ -18,16 +20,26 @@ public class TurnManager : MonoBehaviour {
         RestartGr.SetActive(false);
         RestartButton.SetActive(false);
         CellFull.SetActive(false);
+        Win.SetActive(false);
+        enemy = GameObject.Find("Enemy").GetComponent<Enemy>();
         GameSystem = GameObject.Find("WholeSystem").GetComponent<GameManager>();
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (GameManager.Health <= 0) GameManager.sangtae = GameManager.State.GameOver;
+        if (enemy.EnemyDeath()) GameManager.sangtae = GameManager.State.Win;
         if (GameManager.sangtae == GameManager.State.GameOver)
         {
             Time.timeScale = 0;
             RestartGr.SetActive(true);
             RestartButton.SetActive(true);
+        }
+        else if (GameManager.sangtae == GameManager.State.Win)
+        {
+            Win.SetActive(true);
+            Time.timeScale = 0;
+            Invoke("Winning", 2);
         }
         else if (GameManager.sangtae == GameManager.State.Loaded)
         {
@@ -38,7 +50,7 @@ public class TurnManager : MonoBehaviour {
         }
         else if (GameManager.sangtae == GameManager.State.WaitingForInput)
         {
-            #region 키입력 확인   
+            
             if (Input.GetKeyDown(KeyCode.R))
             {
                 SceneManager.LoadScene("game");
@@ -57,7 +69,7 @@ public class TurnManager : MonoBehaviour {
             }
 
         }
-        #endregion
+        
         else if (GameManager.sangtae == GameManager.State.CheckingMatches)
         {
             GameSystem.SpecificGen();
@@ -91,5 +103,9 @@ public class TurnManager : MonoBehaviour {
                     GameManager.sangtae = GameManager.State.WaitingForInput;
                 }
         }        
+    }
+    void Winning()
+    {
+        Application.Quit();
     }
 }
