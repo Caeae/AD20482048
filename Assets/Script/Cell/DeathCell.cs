@@ -4,29 +4,24 @@ using UnityEngine;
 
 public class DeathCell : Cell{
     bool CanGenerate = false;
-    int PerCent = 0;
+    int PerCent = 0;    
     float HealthPerCent = 100f;
-    void Update()
+    private void Start()
     {
+        IsSpecial = true;
+    }
+    void Update()    {
+        cell.text = value.ToString();
         if (GameManager.Health <= 30)
         {
             CanGenerate = true;
-            HealthPerCent = HealthPerCent - (33 - GameManager.Health) / 3;
-            if (HealthPerCent <= 90) HealthPerCent = 90;
+            HealthPerCent = HealthPerCent - (30 - GameManager.Health) / 3;            
         }
         else CanGenerate = false;
-        if (Activation) GameManager.Health = GameManager.Health * 0.8f; Activation = false;
-    }
-
-    public void DeathCellGenerate()
-    {
-        PerCent = Random.Range(0, 99);
-        if (CanGenerate && PerCent >= HealthPerCent)
-        {
-            //Instantiate(Cell);
+        if (Activation) {
+            GameManager.Health = GameManager.Health * 0.8f;
+            Enemy.EnemyHealthRe(GameManager.Health / 100);
+            Activation = false;
         }
-        
-        
-        //상대의 체력 = 상대체력 * GameManager.Health / 100;
     }
 }

@@ -5,19 +5,29 @@ using UnityEngine;
 public class HealCell : Cell {     
     public static bool CanGenerate = false;    
     public GameObject EmptyCell;
-    int BiggestNumber = 0;
+    float BiggestNumber = 0;
 
-    void Update(){        
+    private void Start()
+    {
+        IsSpecial = true;
+    }
+    void Update()
+    {
+        cell.text = value.ToString();
         Searching();
-        if (BiggestNumber >= 64) {
+        if (BiggestNumber >= 64)
+        {
             CanGenerate = true;
         }
         else CanGenerate = false;
-        if (Activation) GameManager.Health += 15;
+        if (Activation){
+            GameManager.Health += 15; Activation = false;
+        }
     }
 
     void Searching()    {
-        int i = 0, j = 0, counting =0;
+        int i = 0, j = 0;
+        float counting =0;
         for (i = 0; i < 4; i++) for (j = 0; j < 4; j++) {
                 GameObject obj = GetObjectAtGridPosition(i, j);
                 if(obj != EmptyCell) {

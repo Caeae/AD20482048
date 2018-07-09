@@ -16,7 +16,7 @@ public class MovingScript : MonoBehaviour {
     int i=0, j=0;
     int Garo = 4;
     int Sero = 4;
-    int ScoreHap = 0;
+    float ScoreHap = 0;
     // Use this for initialization
     void Start() {
 
@@ -25,7 +25,7 @@ public class MovingScript : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        
+        #region 상하좌우입력
         if (GameManager.sangtae == GameManager.State.WaitingForInput)
         {
  
@@ -62,9 +62,10 @@ public class MovingScript : MonoBehaviour {
                 }
             }
         }
+        #endregion
     }
-
-
+    
+    #region 상하좌우
     private bool MoveCellsLeft()
     {
         bool hasMoved = false;
@@ -338,7 +339,7 @@ public class MovingScript : MonoBehaviour {
         return hasMoved;
 
     }
-
+    #endregion
     private GameObject GetObjectAtGridPosition(int x, int y)
     {
         RaycastHit2D hit = Physics2D.Raycast(CellToFloat(x, y), Vector2.right, BoardX);
@@ -383,7 +384,7 @@ public class MovingScript : MonoBehaviour {
         GameManager.Cellsis.Remove(toDestroy);
         Cell CellTypeCheckOne = toUpgrade.GetComponent<Cell>();
         Cell CellTypeCheckTwo = toDestroy.GetComponent<Cell>();
-        int Count = toUpgrade.GetComponent<Cell>().value;
+        float Count = toUpgrade.GetComponent<Cell>().value;
         GameObject newCell = Instantiate(ObjCell, toUpgradePosition, transform.rotation);
         GameManager.Cellsis.Add(newCell);
         Cell cell = newCell.GetComponent<Cell>();

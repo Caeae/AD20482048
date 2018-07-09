@@ -27,11 +27,11 @@ public class GameManager : MonoBehaviour
     int Garo = 4;
     int Sero = 4;
     int Undostack = 20;
-    public static int Byte = 0;
+    public static float Byte = 0;
     public static List<GameObject> Cellsis;
     int i, j;
-    int[,,] Cell_save = new int[21, 4, 4];
-    int[] Byte_Save = new int[21];
+    float[,,] Cell_save = new float[21, 4, 4];
+    float[] Byte_Save = new float[21];
     //[n,3,4]에는 Byte값을 저장시킴
     public enum State
     {
@@ -164,7 +164,7 @@ public class GameManager : MonoBehaviour
 
     public void RemoveFullCell()
     {
-        int CellNumhapsan = 0;
+        float CellNumhapsan = 0;
         CellFull.SetActive(true);
         displayCooldown = 180;
         
@@ -192,18 +192,13 @@ public class GameManager : MonoBehaviour
         Destroy(toUpgrade);
         Cellsis.Remove(toUpgrade);
         Cellsis.Remove(toDestroy);
-        int Count = toUpgrade.GetComponent<Cell>().value;
+        float Count = toUpgrade.GetComponent<Cell>().value;
         GameObject newCell = Instantiate(ObjCell, toUpgradePosition, transform.rotation);
         Cellsis.Add(newCell);
         Cell celll = newCell.GetComponent<Cell>();
         celll.upgradedThisTurn = true;
         celll.GetComponent<Cell>().value = Count * 2;
         Byte += celll.GetComponent<Cell>().value;
-    }
-    private void DeathCell(GameObject DestroyObj, Cell destroyCell)
-    {
-        int Count = DestroyObj.GetComponent<Cell>().value;
-
     }
 
     //초기에 만들 랜덤타일 1개

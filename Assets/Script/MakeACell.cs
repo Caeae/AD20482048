@@ -25,11 +25,10 @@ public class MakeACell : MonoBehaviour {
 		
 	}
 
-    public void GenerateCell(Vector3 Where, int c)
+    public void GenerateCell(Vector3 Where, float c)
     {
         GameObject obj;
-        switch (a)
-        {
+        switch (a) {
             case 1:
                 obj = Instantiate(NormalCell, Where, transform.rotation);
                 obj.GetComponent<Cell>().value = c;
@@ -66,13 +65,8 @@ public class MakeACell : MonoBehaviour {
                 obj = Instantiate(LineGaroCell, Where, transform.rotation);
                 obj.GetComponent<Cell>().value = c;
                 break;
-
-
             default:
                 break;
-
-
-
         }
         
         

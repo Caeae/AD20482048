@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
-    [SerializeField]
-    float EnemyHealth = 2496f;
+    
+    static float EnemyHealth = 2496f;
 	// Use this for initialization
 	void Start () {
 		
@@ -16,7 +16,10 @@ public class Enemy : MonoBehaviour {
         EnemyHealth = 2496 - GameManager.Byte;
         
 	}
-
+    public static void EnemyHealthRe(float a)
+    {
+        EnemyHealth=a;
+    }
     public bool EnemyDeath() {
         if (EnemyHealth <= 0) return true;
         else return false;       

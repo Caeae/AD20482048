@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour {
     public bool upgradedThisTurn;
-    public int value=2;
+    public float value=2;
     public TextMesh cell;
     public int HowTurnAfter = 0;
     public bool Activation = false;
+    public bool IsSpecial = false;
     void Update()    {
         
     }
