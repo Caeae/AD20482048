@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
 
     private bool CanUpgrade(Cell thisCell, Cell thatCell)
     { // 값, 숫자가 같을때 합치게 함 && 
-        return (thisCell.value != 2048 && thisCell.value == thatCell.value && !thisCell.upgradedThisTurn && !thatCell.upgradedThisTurn);
+        return (thisCell.value == thatCell.value && !thisCell.upgradedThisTurn && !thatCell.upgradedThisTurn);
     }
 
     public static Vector2 CellToFloat(int x, int y) {

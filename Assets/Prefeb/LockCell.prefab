@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114324105146398152}
   m_Layer: 0
   m_Name: LockCell
-  m_TagString: Wall
+  m_TagString: LockCell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -169,6 +169,8 @@ MonoBehaviour:
   value: 2
   cell: {fileID: 102885049125161732}
   HowTurnAfter: 0
+  Activation: 0
+  IsSpecial: 0
 --- !u!212 &212492569870755766
 SpriteRenderer:
   m_ObjectHideFlags: 1

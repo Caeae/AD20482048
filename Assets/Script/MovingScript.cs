@@ -125,6 +125,28 @@ public class MovingScript : MonoBehaviour {
                                 hasMoved = true;
                             }
                         }
+                        else if (hitObject.tag == "LockCell")
+                        {
+                            Cell thatCell = hitObject.GetComponent<Cell>();
+                            Cell thisCell = obj.GetComponent<Cell>();
+                            if (CanUpgrade(thisCell, thatCell) && thisCell.value >= 16)
+                            {
+                                UpgradeCell(obj, thisCell, hitObject, thatCell);
+                                hasMoved = true;
+                            }
+                            Vector3 newPosition = hitObject.transform.position;
+                            newPosition.x += 1f;
+                            //newPosition.y -= spaceBetweenTiles;
+                            //부딪힌 자리와 자신의 자리가 비슷하다면
+                            if (!Mathf.Approximately(obj.transform.position.y, newPosition.y))
+                            {
+                                //그 부딪힌 위치로 지정함
+
+                                obj.transform.position = newPosition;
+                                hasMoved = true;
+                            }
+
+                        }
                     }
                 }
             }
@@ -191,6 +213,28 @@ public class MovingScript : MonoBehaviour {
                                 obj.transform.position = newPosition;
                                 hasMoved = true;
                             }
+                        }
+                        else if (hitObject.tag == "LockCell")
+                        {
+                            Cell thatCell = hitObject.GetComponent<Cell>();
+                            Cell thisCell = obj.GetComponent<Cell>();
+                            if (CanUpgrade(thisCell, thatCell) && thisCell.value >= 16)
+                            {
+                                UpgradeCell(obj, thisCell, hitObject, thatCell);
+                                hasMoved = true;
+                            }
+                            Vector3 newPosition = hitObject.transform.position;
+                            newPosition.x -= 1f;
+                            //newPosition.y -= spaceBetweenTiles;
+                            //부딪힌 자리와 자신의 자리가 비슷하다면
+                            if (!Mathf.Approximately(obj.transform.position.y, newPosition.y))
+                            {
+                                //그 부딪힌 위치로 지정함
+
+                                obj.transform.position = newPosition;
+                                hasMoved = true;
+                            }
+
                         }
                     }
                 }
@@ -263,6 +307,26 @@ public class MovingScript : MonoBehaviour {
                                 hasMoved = true;
                             }
                         }
+                        else if (hitObject.tag == "LockCell") {
+                            Cell thatCell = hitObject.GetComponent<Cell>();
+                            Cell thisCell = obj.GetComponent<Cell>();
+                            if (CanUpgrade(thisCell, thatCell)&&thisCell.value >=16) {
+                                UpgradeCell(obj, thisCell, hitObject, thatCell);
+                                hasMoved = true;
+                            }
+                            Vector3 newPosition = hitObject.transform.position;
+                            newPosition.y -= 1f;
+                            //newPosition.y -= spaceBetweenTiles;
+                            //부딪힌 자리와 자신의 자리가 비슷하다면
+                            if (!Mathf.Approximately(obj.transform.position.y, newPosition.y))
+                            {
+                                //그 부딪힌 위치로 지정함
+
+                                obj.transform.position = newPosition;
+                                hasMoved = true;
+                            }
+
+                        }
                     }
                 }
             }
@@ -316,7 +380,6 @@ public class MovingScript : MonoBehaviour {
                                 obj.transform.position = newPosition;
                                 hasMoved = true;
                             }
-
                         }
                         //벽에 부딪히면
                         else if (hitObject.tag == "Wall")
@@ -325,11 +388,32 @@ public class MovingScript : MonoBehaviour {
                             newPosition.y = hit.point.y + 0.6f;
                             // newPosition.y = hit.point.y + halfTileWidth + borderOffset; 부딪힌데에서 위쪽으로 간격 벌림
                             //부딪힌 자리와 자신의 자리가 비슷하다면 (소수점 제거)
-                            if (!Mathf.Approximately(obj.transform.position.y, newPosition.y))
-                            {
+                            if (!Mathf.Approximately(obj.transform.position.y, newPosition.y)) {
                                 obj.transform.position = newPosition;
                                 hasMoved = true;
                             }
+                        }
+                        else if (hitObject.tag == "LockCell")
+                        {
+                            Cell thatCell = hitObject.GetComponent<Cell>();
+                            Cell thisCell = obj.GetComponent<Cell>();
+                            if (CanUpgrade(thisCell, thatCell) && thisCell.value >= 16)
+                            {
+                                UpgradeCell(obj, thisCell, hitObject, thatCell);
+                                hasMoved = true;
+                            }
+                            Vector3 newPosition = hitObject.transform.position;
+                            newPosition.y += 1f;
+                            //newPosition.y -= spaceBetweenTiles;
+                            //부딪힌 자리와 자신의 자리가 비슷하다면
+                            if (!Mathf.Approximately(obj.transform.position.y, newPosition.y))
+                            {
+                                //그 부딪힌 위치로 지정함
+
+                                obj.transform.position = newPosition;
+                                hasMoved = true;
+                            }
+
                         }
                     }
                 }
@@ -357,7 +441,7 @@ public class MovingScript : MonoBehaviour {
 
     private bool CanUpgrade(Cell thisCell, Cell thatCell)
     { // 값, 숫자가 같을때 합치게 함 && 
-        return (thisCell.value != 2048 && thisCell.value == thatCell.value && !thisCell.upgradedThisTurn && !thatCell.upgradedThisTurn);
+        return (thisCell.value == thatCell.value && !thisCell.upgradedThisTurn && !thatCell.upgradedThisTurn);
     }
 
     private void ReadyCellsForUpgrading()
