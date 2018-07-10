@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MakeACell : MonoBehaviour {
     int a = 1;
+    float BoardX = 0.2f;
+    public GameObject EmptyCell;
     public GameObject NormalCell;
     public GameObject DeathCell;
     public GameObject NuclearCell;
@@ -71,4 +73,23 @@ public class MakeACell : MonoBehaviour {
         
         
     }
+    void WorldSearch()
+    {
+
+    }
+
+    public GameObject GetObjectAtGridPosition(int x, int y)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(GameManager.CellToFloat(x, y), Vector2.right, BoardX);
+
+        if (hit && hit.collider.gameObject.GetComponent<Cell>() != null)
+        {
+            return hit.collider.gameObject;
+        }
+        else
+        {
+            return EmptyCell;
+        }
+    }
+
 }

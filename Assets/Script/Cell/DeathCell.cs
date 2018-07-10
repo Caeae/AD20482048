@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DeathCell : Cell{
-    bool CanGenerate = false;
-    int PerCent = 0;    
+    bool CanGenerate = false;      
     float HealthPerCent = 100f;
-    private void Start()
-    {
+    void Start() {
         IsSpecial = true;
     }
     void Update()    {
         cell.text = value.ToString();
-        if (GameManager.Health <= 30)
-        {
+        if (GameManager.Health <= 30) {
             CanGenerate = true;
             HealthPerCent = HealthPerCent - (30 - GameManager.Health) / 3;            
         }

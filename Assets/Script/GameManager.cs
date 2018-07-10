@@ -11,8 +11,7 @@ public class GameManager : MonoBehaviour
                 WallX = 0.2f,
                 WallY = 0.2f;
 
-    public GameObject ObjCell;
-    GameObject IsLock;
+    public GameObject ObjCell;    
     public GameObject EmptyCell;
     public static int RestCellleft = 16;
     public static int turn = 0;
@@ -26,7 +25,6 @@ public class GameManager : MonoBehaviour
 
     int Garo = 4;
     int Sero = 4;
-    int Undostack = 20;
     public static float Byte = 0;
     public static List<GameObject> Cellsis;
     int i, j;
@@ -126,17 +124,10 @@ public class GameManager : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.Raycast(CellToFloat(x, y), Vector2.right, BoardX);
 
-        if (hit && hit.collider.gameObject.GetComponent<Cell>() != null)
-        {
+        if (hit && hit.collider.gameObject.GetComponent<Cell>() != null)  {
             return hit.collider.gameObject;
         }
-        else if(hit && hit.collider.gameObject.GetComponent<LockCell>() != null) {
-            return IsLock;
-        }
-
-        else
-
-        {
+        else {
             return EmptyCell;
         }
     }
@@ -147,18 +138,7 @@ public class GameManager : MonoBehaviour
         return (thisCell.value != 2048 && thisCell.value == thatCell.value && !thisCell.upgradedThisTurn && !thatCell.upgradedThisTurn);
     }
 
-    public void ReadyTilesForUpgrading()
-    {
-        foreach (var obj in Cellsis)
-        {
-            Cell block = obj.GetComponent<Cell>();
-            block.upgradedThisTurn = false;
-        }
-    }
-
-
-    public static Vector2 CellToFloat(int x, int y)
-    {
+    public static Vector2 CellToFloat(int x, int y) {
         return new Vector2(x - 1.5f, 1.5f - y);
     }
 
@@ -257,22 +237,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SpecificGen()
-    {
+    public void SpecificGen()  {
         int SGCheck = turn % Cellsis.Count + 1;        
         int SGHwakin = 0;
         float oneortwo = Random.Range(0, 1);
         bool Creating = false;
         while (!Creating)
-            for (int j = 0; j < Sero; j++)
-            {
-                for (int i = 0; i < Garo; i++)
-                {
-                    if (GetObjectAtGridPosition(i, j) == EmptyCell)
-                    {
+            for (int j = 0; j < Sero; j++)  {
+                for (int i = 0; i < Garo; i++)  {
+                    if (GetObjectAtGridPosition(i, j) == EmptyCell)  {
                         SGHwakin++;
-                        if (SGHwakin == SGCheck)
-                        {
+                        if (SGHwakin == SGCheck) {
                             Vector2 worldPosition = CellToFloat(i, j);
                             GameObject obj;
                             if (oneortwo <= 0.9f)
@@ -280,8 +255,7 @@ public class GameManager : MonoBehaviour
                                 obj = GameObject.Instantiate(ObjCell, worldPosition, transform.rotation);
                                 obj.GetComponent<Cell>().value = 2;
                             }
-                            else
-                            {
+                            else  {
                                 obj = GameObject.Instantiate(ObjCell, worldPosition, transform.rotation);
                                 obj.GetComponent<Cell>().value = 4;
                             }

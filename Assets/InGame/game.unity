@@ -227,7 +227,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e518c3885f1b54b8ef3927633c73dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyHealth: 2496
 --- !u!4 &67404766
 Transform:
   m_ObjectHideFlags: 0
@@ -1960,6 +1959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06bda7eaf82c3f04587e06295b204d88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EmptyCell: {fileID: 0}
   NormalCell: {fileID: 1095739186206796, guid: dbe5ab04a4b5d124b8bce4b5af7e3864, type: 2}
   DeathCell: {fileID: 0}
   NuclearCell: {fileID: 0}

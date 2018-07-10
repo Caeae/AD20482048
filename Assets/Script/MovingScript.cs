@@ -16,7 +16,7 @@ public class MovingScript : MonoBehaviour {
     int i=0, j=0;
     int Garo = 4;
     int Sero = 4;
-    float ScoreHap = 0;
+    public static float ScoreHap = 0;
     // Use this for initialization
     void Start() {
 
@@ -34,7 +34,7 @@ public class MovingScript : MonoBehaviour {
                 if (MoveCellsLeft())
                 {
                     GameManager.sangtae = GameManager.State.CheckingMatches;
-                    GameManager.Byte = ScoreHap;
+                    
                 }
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -42,7 +42,7 @@ public class MovingScript : MonoBehaviour {
                 if (MoveCellsRight())
                 {
                     GameManager.sangtae = GameManager.State.CheckingMatches;
-                    GameManager.Byte = ScoreHap;
+                    
                 }
             }
             else if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -50,7 +50,7 @@ public class MovingScript : MonoBehaviour {
                 if (MoveCellsUp())
                 {
                     GameManager.sangtae = GameManager.State.CheckingMatches;
-                    GameManager.Byte = ScoreHap;
+                    
                 }
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -58,7 +58,7 @@ public class MovingScript : MonoBehaviour {
                 if (MoveCellsDown())
                 {
                     GameManager.sangtae = GameManager.State.CheckingMatches;
-                    GameManager.Byte = ScoreHap;
+                    
                 }
             }
         }
@@ -360,7 +360,7 @@ public class MovingScript : MonoBehaviour {
         return (thisCell.value != 2048 && thisCell.value == thatCell.value && !thisCell.upgradedThisTurn && !thatCell.upgradedThisTurn);
     }
 
-    private void ReadyTilesForUpgrading()
+    private void ReadyCellsForUpgrading()
     {
         foreach (var obj in GameManager.Cellsis)
         {
@@ -381,9 +381,7 @@ public class MovingScript : MonoBehaviour {
         Destroy(toDestroy);
         Destroy(toUpgrade);
         GameManager.Cellsis.Remove(toUpgrade);
-        GameManager.Cellsis.Remove(toDestroy);
-        Cell CellTypeCheckOne = toUpgrade.GetComponent<Cell>();
-        Cell CellTypeCheckTwo = toDestroy.GetComponent<Cell>();
+        GameManager.Cellsis.Remove(toDestroy);        
         float Count = toUpgrade.GetComponent<Cell>().value;
         GameObject newCell = Instantiate(ObjCell, toUpgradePosition, transform.rotation);
         GameManager.Cellsis.Add(newCell);

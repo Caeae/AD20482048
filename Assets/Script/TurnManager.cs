@@ -70,6 +70,7 @@ public class TurnManager : MonoBehaviour {
         else if (GameManager.sangtae == GameManager.State.CheckingMatches)
         {
             GameSystem.SpecificGen();
+            GameManager.Byte = MovingScript.ScoreHap;
             if (GameSystem.CheckForMovesLeft())
             {
                 GameSystem.ReadyCellsForUpgrading();
