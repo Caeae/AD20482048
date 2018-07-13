@@ -24,6 +24,8 @@ public class TurnManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
+        
         if (GameManager.Health <= 0) GameManager.sangtae = GameManager.State.GameOver;
         if (enemy.EnemyDeath()) GameManager.sangtae = GameManager.State.Win;
         if (GameManager.sangtae == GameManager.State.GameOver)
@@ -77,7 +79,7 @@ public class TurnManager : MonoBehaviour {
                 GameManager.turn++;
                 Undostack = 20;
                 GameSystem.MoveCellSaveToForward();
-                GameManager.sangtae = GameManager.State.WaitingForInput;
+                GameManager.sangtae = GameManager.State.GenerateCell;
 
             }
             else
@@ -100,6 +102,10 @@ public class TurnManager : MonoBehaviour {
                     Debug.Log("20번 이상은 할 수 없습니다");
                     GameManager.sangtae = GameManager.State.WaitingForInput;
                 }
+            else {
+                Debug.Log("첫 턴은 Undo를 할 수 없습니다");
+                GameManager.sangtae = GameManager.State.WaitingForInput;
+            }
         }        
     }
     void Winning()

@@ -4,80 +4,96 @@ using UnityEngine;
 
 public class MakeACell : MonoBehaviour {
     int a = 1;
-    float BoardX = 0.2f;
-    public GameObject EmptyCell;
-    public GameObject NormalCell;
-    public GameObject DeathCell;
-    public GameObject NuclearCell;
-    public GameObject DoubleCell;
-    public GameObject LockCell;
-    public GameObject UnLockCell;
-    public GameObject HealCell;
-    public GameObject FeverCell;
-    public GameObject WarpCell;
-    public GameObject LineGaroCell;
-    public GameObject LineSeroCell;
+    const float BoardX = 0.2f;
+    public static GameObject EmptyCell;
+    public static GameObject NormalCell;
+    public static GameObject DeathCell;
+    public static GameObject NuclearCell;
+    public static GameObject DoubleCell;
+    public static GameObject LockCell;
+    public static GameObject UnLockCell;
+    public static GameObject HealCell;
+    public static GameObject FeverCell;    
+    public static GameObject LineGaroCell;
+    public static GameObject LineSeroCell;
+    public static GameObject BuffCell;
     // Use this for initialization
     void Start () {
-		
-	}
+        EmptyCell = GameObject.Find("NoCell");
+        NormalCell = GameObject.Find("Cell");
+        DeathCell = GameObject.Find("DeathCell");
+        NuclearCell = GameObject.Find("NuclearCell");
+        DoubleCell = GameObject.Find("Double");
+        LockCell = GameObject.Find("LockCell");
+        HealCell = GameObject.Find("HealCell");
+        LineGaroCell = GameObject.Find("LineCellGaro");
+        BuffCell = GameObject.Find("BuffCell");
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        if(GameManager.sangtae == GameManager.State.GenerateCell)
+        {
+            
+            GameManager.sangtae = GameManager.State.WaitingForInput;
+        }
+    }
 
-    public void GenerateCell(Vector3 Where, float c)
+    public static GameObject GenerateCell(Vector3 Where, int c)
     {
         float CellValueCheck = 0;
+        int Count = Random.Range(0,100);
         GameObject obj;
         GameObject PreObj = GetObjectAtVector(Where);
         if(PreObj != EmptyCell) {
             CellValueCheck = PreObj.GetComponent<Cell>().value;
         }
-
-        switch (a) {
+        
+        switch (c) {
             case 1:
-                obj = Instantiate(NormalCell, Where, transform.rotation);
+                obj = Instantiate(NormalCell, Where, Quaternion.identity);
                 obj.GetComponent<Cell>().value = CellValueCheck;
-                break;
+                return obj;
             case 2:
-                obj = Instantiate(NuclearCell, Where, transform.rotation);
+                if(Cell.NukeGene) obj = Instantiate(NuclearCell, Where, Quaternion.identity);
+                else obj = Instantiate(NormalCell, Where, Quaternion.identity);
                 obj.GetComponent<Cell>().value = CellValueCheck;
-                break;
+                return obj;
             case 3:
-                obj = Instantiate(DeathCell, Where, transform.rotation);
+                if(Cell.DeathGene) obj = Instantiate(DeathCell, Where, Quaternion.identity);
+                else obj = Instantiate(NormalCell, Where, Quaternion.identity);
                 obj.GetComponent<Cell>().value = CellValueCheck;
-                break;
+                return obj;
             case 4:
-                obj = Instantiate(DoubleCell, Where, transform.rotation);
+                obj = Instantiate(DoubleCell, Where, Quaternion.identity);
                 obj.GetComponent<Cell>().value = CellValueCheck;
-                break;
-            case 5:
-                obj = Instantiate(LockCell, Where, transform.rotation);
+                return obj;
+            case 5:                
+                obj = Instantiate(LockCell, Where, Quaternion.identity);
                 obj.GetComponent<Cell>().value = CellValueCheck;
-                break;
+                return obj;
             case 6:
-                obj = Instantiate(HealCell, Where, transform.rotation);
+                if(Cell.HealGene) obj = Instantiate(HealCell, Where, Quaternion.identity);
+                else obj = Instantiate(NormalCell, Where, Quaternion.identity);
                 obj.GetComponent<Cell>().value = CellValueCheck;
-                break;
+                return obj;
             case 7:
-                obj = Instantiate(FeverCell, Where, transform.rotation);
+                obj = Instantiate(FeverCell, Where, Quaternion.identity);
                 obj.GetComponent<Cell>().value = CellValueCheck;
-                break;
+                return obj;
             case 8:
-                obj = Instantiate(WarpCell, Where, transform.rotation);
+                obj = Instantiate(LineGaroCell, Where, Quaternion.identity);
                 obj.GetComponent<Cell>().value = CellValueCheck;
-                break;
+                return obj;
             case 9:
-                obj = Instantiate(LineGaroCell, Where, transform.rotation);
+                if (Cell.BuffGene) obj = Instantiate(BuffCell, Where, Quaternion.identity);
+                else obj = Instantiate(NormalCell, Where, Quaternion.identity);                
                 obj.GetComponent<Cell>().value = CellValueCheck;
-                break;
+                return obj;
             default:
-                break;
+                return EmptyCell;
+
         }
-        
-        
     }
     void WorldSearch()
     {
@@ -101,7 +117,7 @@ public class MakeACell : MonoBehaviour {
             return EmptyCell;
         }
     }
-    public GameObject GetObjectAtVector(Vector3 A)
+    public static GameObject GetObjectAtVector(Vector3 A)
     {
         RaycastHit2D hit = Physics2D.Raycast(A, Vector2.right, BoardX);
 

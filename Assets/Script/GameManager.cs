@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
         Loaded,
         WaitingForInput,
         CheckingMatches,
+        GenerateCell,
         UndoFunction,
         GameOver,
         Win

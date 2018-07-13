@@ -462,17 +462,20 @@ public class MovingScript : MonoBehaviour {
     private void UpgradeCell(GameObject toDestroy, Cell destroyCell, GameObject toUpgrade, Cell upgradeCell)
     {
         Vector3 toUpgradePosition = toUpgrade.transform.position;
+        destroyCell.Activation = true;
+        upgradeCell.Activation = true;
         Destroy(toDestroy);
         Destroy(toUpgrade);
         GameManager.Cellsis.Remove(toUpgrade);
-        GameManager.Cellsis.Remove(toDestroy);        
+        GameManager.Cellsis.Remove(toDestroy);
         float Count = toUpgrade.GetComponent<Cell>().value;
-        GameObject newCell = Instantiate(ObjCell, toUpgradePosition, transform.rotation);
+        GameObject newCell = MakeACell.GenerateCell(toUpgradePosition, 1);
         GameManager.Cellsis.Add(newCell);
         Cell cell = newCell.GetComponent<Cell>();
         cell.upgradedThisTurn = true;
+        cell.Activation = false;
         cell.GetComponent<Cell>().value = Count * 2;
-        ScoreHap += cell.GetComponent<Cell>().value;
+        ScoreHap += cell.GetComponent<Cell>().value;    
     }
 
     void SearchHighValue()
