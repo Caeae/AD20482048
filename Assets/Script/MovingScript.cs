@@ -17,8 +17,10 @@ public class MovingScript : MonoBehaviour {
     int Garo = 4;
     int Sero = 4;
     public static float ScoreHap = 0;
+    PoolSystem PoolManager;
     // Use this for initialization
     void Start() {
+        PoolManager = GameObject.Find("CellManageMent").GetComponent<PoolSystem>();
 
     }
 
@@ -467,12 +469,15 @@ public class MovingScript : MonoBehaviour {
         destroyCell.Activation = true;
         upgradeCell.Activation = true;
         //Destroy(toDestroy);
-        toDestroy.SetActive(false);
+        //toDestroy.SetActive(false);
         //Destroy(toUpgrade);
-        GameManager.Cellsis.Remove(toUpgrade);
-        GameManager.Cellsis.Remove(toDestroy);
+        //toUpgrade.SetActive(false);
+        PoolManager.DeleteCell(toDestroy);
+        PoolManager.DeleteCell(toUpgrade);
+        //GameManager.Cellsis.Remove(toUpgrade);
+        //GameManager.Cellsis.Remove(toDestroy);
         float Count = toUpgrade.GetComponent<Cell>().value;
-        GameObject newCell = PoolSystem.Generate(ObjCell, toUpgradePosition, Quaternion.identity);
+        GameObject newCell = PoolManager.Generate(ObjCell, toUpgradePosition, Quaternion.identity);
         GameManager.Cellsis.Add(newCell);
         Cell cells = newCell.GetComponent<Cell>();
         cells.upgradedThisTurn = true;

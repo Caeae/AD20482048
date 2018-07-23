@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 public class PoolSystem : MonoBehaviour{
     const int Cell_Maximum = 17;
-    public static Stack<GameObject> CellStack;
-    public static GameObject ObjCell;
+    public Stack<GameObject> CellStack;
+    public GameObject ObjCell;
     private void Start()
     {
-        GameObject Obj = GameObject.Instantiate(ObjCell);
-        CellStack.Push(Obj);
+        CellStack = new Stack<GameObject>();
+        ObjCell = GameObject.Find("Cell");
     }
-    public static GameObject Generate(GameObject ObjCell, Vector3 pos, Quaternion rot) {
+    public GameObject Generate(GameObject ObjCell, Vector3 pos, Quaternion rot) {
 			GameObject obj;
 			if(CellStack.Count==0) {
 				obj = GameObject.Instantiate(ObjCell, pos, rot);				
@@ -26,7 +26,7 @@ public class PoolSystem : MonoBehaviour{
 			obj.SetActive(true);
 			return obj;	
 		}
-		public static void DeleteCell(GameObject obj) {
+		public void DeleteCell(GameObject obj) {
 			obj.SetActive(false);
 			CellStack.Push(obj);
 		}

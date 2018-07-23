@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public GameObject ReGreem;
     public GameObject CellFull;
     public static bool gameover = false;
-
+    PoolSystem PoolManager;
     int Garo = 4;
     int Sero = 4;
     public static float Byte = 0;
@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         CellFull.SetActive(false);
         ReGreem.SetActive(false);
         sangtae = State.Loaded;
-        
+        PoolManager = GameObject.Find("CellManageMent").GetComponent<PoolSystem>();
     }
 
     // Update is called once per frame
@@ -216,12 +216,12 @@ public class GameManager : MonoBehaviour
                 GameObject obj;
                 if (value == 4) {
                     //obj = GameObject.Instantiate(ObjCell, worldPosition, transform.rotation);
-                    obj = PoolSystem.Generate(ObjCell, worldPosition, transform.rotation);
+                    obj = PoolManager.Generate(ObjCell, worldPosition, transform.rotation);
                     obj.GetComponent<Cell>().value = 4;
                 }
                 else {
                     //obj = GameObject.Instantiate(ObjCell, worldPosition, transform.rotation);
-                    obj = PoolSystem.Generate(ObjCell, worldPosition, transform.rotation);
+                    obj = PoolManager.Generate(ObjCell, worldPosition, transform.rotation);
                     obj.GetComponent<Cell>().value = 2;
                 }
                 Cellsis.Add(obj);
