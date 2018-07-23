@@ -461,21 +461,25 @@ public class MovingScript : MonoBehaviour {
 
     private void UpgradeCell(GameObject toDestroy, Cell destroyCell, GameObject toUpgrade, Cell upgradeCell)
     {
-        Vector3 toUpgradePosition = toUpgrade.transform.position;
+        Vector3 toUpgradePosition = toUpgrade.transform.position;        
+        object DCT = destroyCell.GetType();
+        object UCT = upgradeCell.GetType();
         destroyCell.Activation = true;
         upgradeCell.Activation = true;
-        Destroy(toDestroy);
-        Destroy(toUpgrade);
+        //Destroy(toDestroy);
+        toDestroy.SetActive(false);
+        //Destroy(toUpgrade);
         GameManager.Cellsis.Remove(toUpgrade);
         GameManager.Cellsis.Remove(toDestroy);
         float Count = toUpgrade.GetComponent<Cell>().value;
-        GameObject newCell = MakeACell.GenerateCell(toUpgradePosition, 1);
+        GameObject newCell = PoolSystem.Generate(ObjCell, toUpgradePosition, Quaternion.identity);
         GameManager.Cellsis.Add(newCell);
-        Cell cell = newCell.GetComponent<Cell>();
-        cell.upgradedThisTurn = true;
-        cell.Activation = false;
-        cell.GetComponent<Cell>().value = Count * 2;
-        ScoreHap += cell.GetComponent<Cell>().value;    
+        Cell cells = newCell.GetComponent<Cell>();
+        cells.upgradedThisTurn = true;
+        cells.Activation = false;
+        cells.GetComponent<Cell>().value = Count * 2;
+        ScoreHap += cells.GetComponent<Cell>().value;
+        GameManager.Byte += cells.GetComponent<Cell>().value;
     }
 
     void SearchHighValue()

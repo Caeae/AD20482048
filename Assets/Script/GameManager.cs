@@ -215,11 +215,13 @@ public class GameManager : MonoBehaviour
                 Vector2 worldPosition = CellToFloat(i, j);
                 GameObject obj;
                 if (value == 4) {
-                    obj = GameObject.Instantiate(ObjCell, worldPosition, transform.rotation);
+                    //obj = GameObject.Instantiate(ObjCell, worldPosition, transform.rotation);
+                    obj = PoolSystem.Generate(ObjCell, worldPosition, transform.rotation);
                     obj.GetComponent<Cell>().value = 4;
                 }
                 else {
-                    obj = GameObject.Instantiate(ObjCell, worldPosition, transform.rotation);
+                    //obj = GameObject.Instantiate(ObjCell, worldPosition, transform.rotation);
+                    obj = PoolSystem.Generate(ObjCell, worldPosition, transform.rotation);
                     obj.GetComponent<Cell>().value = 2;
                 }
                 Cellsis.Add(obj);

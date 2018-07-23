@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FeverCell : MonoBehaviour {
-
-    public bool upgradedThisTurn;
-    public int value = 2;
-    public TextMesh cell;
-    public int HowTurnAfter = 0;
-
+public class FeverCell : Cell {
+    
     void Update()
     {
         cell.text = value.ToString();
+        if (Activation){
 
+
+            Activation = false;
+        }
     }
 }

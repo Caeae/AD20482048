@@ -52,8 +52,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1391383284120116}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.819685, y: -2.99, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.2438078, y: 2.0570292, z: 0.15625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4947407334634018}
@@ -169,7 +169,8 @@ MonoBehaviour:
   value: 2
   cell: {fileID: 102443133053825072}
   HowTurnAfter: 0
-  EmptyCell: {fileID: 0}
+  Activation: 0
+  IsSpecial: 0
 --- !u!212 &212497440430537386
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -45,6 +45,7 @@ public class TurnManager : MonoBehaviour {
             //처음 시작할때 블록 1~2개 젠됨
             GameSystem.GenerateRandomCell();
             GameSystem.GenerateRandomCell();
+            
             GameManager.sangtae = GameManager.State.WaitingForInput;
         }
         else if (GameManager.sangtae == GameManager.State.WaitingForInput)
@@ -72,7 +73,7 @@ public class TurnManager : MonoBehaviour {
         else if (GameManager.sangtae == GameManager.State.CheckingMatches)
         {
             GameSystem.SpecificGen();
-            GameManager.Byte = MovingScript.ScoreHap;
+            
             if (GameSystem.CheckForMovesLeft())
             {
                 GameSystem.ReadyCellsForUpgrading();

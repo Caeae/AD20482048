@@ -53,7 +53,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1124323184978248}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.731, z: 0.08154297}
+  m_LocalPosition: {x: 0, y: 0.003, z: 0.08154297}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4683764582384242}
@@ -65,8 +65,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1892653826371126}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.6989293, y: -1.0186045, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.756192, y: 2.0570292, z: 0.15625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4425696454929698}
@@ -148,12 +148,12 @@ TextMesh:
   m_Alignment: 1
   m_TabSize: 4
   m_FontSize: 0
-  m_FontStyle: 0
+  m_FontStyle: 1
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: c5e2b9f44f84e7d449127b898b2ef667, type: 3}
   m_Color:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190080
 --- !u!114 &114939052842107554
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -169,6 +169,8 @@ MonoBehaviour:
   value: 2
   cell: {fileID: 102929887093264932}
   HowTurnAfter: 0
+  Activation: 0
+  IsSpecial: 0
 --- !u!212 &212179332957059854
 SpriteRenderer:
   m_ObjectHideFlags: 1

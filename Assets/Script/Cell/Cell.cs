@@ -11,7 +11,7 @@ public class Cell : MonoBehaviour {
     public bool Activation = false;
     public bool IsSpecial = false;
     public static bool DeathGene = false;
-    public static bool NukeGene = false;
+    public static bool NukeGene = true;
     public static bool HealGene = false;
     public static bool BuffGene = false;
     float HealthPerCent = 100f;
@@ -26,8 +26,8 @@ public class Cell : MonoBehaviour {
         Searching();
         if (BiggestNumber >= 64) HealGene = true;
         else HealGene = false;
-        if (BiggestNumber >= 128) NukeGene = true;
-        else NukeGene = false;
+        /*if (BiggestNumber >= 128) NukeGene = true;
+        else NukeGene = false;*/
         if (BiggestNumber >= 256) BuffGene = true;
         else BuffGene = false;
         if (GameManager.Health <= 30) {

@@ -92,7 +92,6 @@ public class MakeACell : MonoBehaviour {
                 return obj;
             default:
                 return EmptyCell;
-
         }
     }
     void WorldSearch()
