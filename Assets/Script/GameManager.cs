@@ -108,13 +108,16 @@ public class GameManager : MonoBehaviour
                 Cell currentCell = GetObjectAtGridPosition(x, y).GetComponent<Cell>();
                 Cell rightCell = GetObjectAtGridPosition(x + 1, y).GetComponent<Cell>();
                 Cell downCell = GetObjectAtGridPosition(x, y + 1).GetComponent<Cell>();
-                if (x != Garo - 1 && currentCell.value == rightCell.value)
+                if (currentCell != null && rightCell != null && downCell != null)
                 {
-                    return true;
-                }
-                else if (y != Sero - 1 && currentCell.value == downCell.value)
-                {
-                    return true;
+                    if (x != Garo - 1 && currentCell.value == rightCell.value)
+                    {
+                        return true;
+                    }
+                    else if (y != Sero - 1 && currentCell.value == downCell.value)
+                    {
+                        return true;
+                    }
                 }
             }
         }
@@ -255,11 +258,11 @@ public class GameManager : MonoBehaviour
                             GameObject obj;
                             if (oneortwo <= 0.9f)
                             {//1,2가 나오는 랜덤함수에서 1이 나오면 2, 2가 나오면 4가 생성시킨다                    
-                                obj = GameObject.Instantiate(ObjCell, worldPosition, transform.rotation);
+                                obj = PoolManager.Generate(ObjCell, worldPosition, transform.rotation);
                                 obj.GetComponent<Cell>().value = 2;
                             }
                             else  {
-                                obj = GameObject.Instantiate(ObjCell, worldPosition, transform.rotation);
+                                obj = PoolManager.Generate(ObjCell, worldPosition, transform.rotation);
                                 obj.GetComponent<Cell>().value = 4;
                             }
                             Creating = true;
@@ -305,7 +308,7 @@ public class GameManager : MonoBehaviour
                 GameObject Obj = GetObjectAtGridPosition(i, j);
                 if (Cell_save[0, i, j] != 0 && Obj == EmptyCell)
                 {
-                    GameObject NewCell = Instantiate(ObjCell, CellToFloat(i, j), transform.rotation);
+                    GameObject NewCell = PoolManager.Generate(ObjCell, CellToFloat(i, j), transform.rotation);
                     Cellsis.Add(NewCell);
                     NewCell.GetComponent<Cell>().value = Cell_save[0, i, j];                    
                 }
@@ -313,7 +316,7 @@ public class GameManager : MonoBehaviour
                 {
                     GameObject DeleteCell = GetObjectAtGridPosition(i, j);
                     Cellsis.Remove(DeleteCell);
-                    Destroy(DeleteCell);
+                    PoolManager.DeleteCell(DeleteCell);
                 }
                 else if (Cell_save[0, i, j] != 0 && Obj != EmptyCell)
                 {                    

@@ -8,6 +8,7 @@ public class Remain : MonoBehaviour {
     public Text Cex;
     public Text Turn;
     public Text Score;
+    public Slider HealthBar;
     // Use this for initialization
     void Start () {
 		
@@ -18,6 +19,7 @@ public class Remain : MonoBehaviour {
         Cex.text = GameManager.RestCellleft.ToString();
         Turn.text = GameManager.turn.ToString();
         Score.text = GameManager.Byte.ToString();
+        HealthBar.value = GameManager.Health;
     }
 
     

@@ -17,6 +17,7 @@ public class MakeACell : MonoBehaviour {
     public static GameObject LineGaroCell;
     public static GameObject LineSeroCell;
     public static GameObject BuffCell;
+    PoolSystem PoolManageMent;
     // Use this for initialization
     void Start () {
         EmptyCell = GameObject.Find("NoCell");
@@ -28,6 +29,7 @@ public class MakeACell : MonoBehaviour {
         HealCell = GameObject.Find("HealCell");
         LineGaroCell = GameObject.Find("LineCellGaro");
         BuffCell = GameObject.Find("BuffCell");
+        PoolManageMent = GameObject.Find("CellManageMent").GetComponent<PoolSystem>();
     }
 	
 	// Update is called once per frame
@@ -39,7 +41,7 @@ public class MakeACell : MonoBehaviour {
         }
     }
 
-    public static GameObject GenerateCell(Vector3 Where, int c)
+    public GameObject GenerateCell(Vector3 Where, int c)
     {
         float CellValueCheck = 0;
         int Count = Random.Range(0,100);
@@ -49,45 +51,41 @@ public class MakeACell : MonoBehaviour {
             CellValueCheck = PreObj.GetComponent<Cell>().value;
         }
         
-        switch (c) {
-            case 1:
-                obj = Instantiate(NormalCell, Where, Quaternion.identity);
-                obj.GetComponent<Cell>().value = CellValueCheck;
-                return obj;
+        switch (c) {            
             case 2:
-                if(Cell.NukeGene) obj = Instantiate(NuclearCell, Where, Quaternion.identity);
-                else obj = Instantiate(NormalCell, Where, Quaternion.identity);
+                if (Cell.NukeGene) obj = PoolManageMent.Generate(NuclearCell, Where, Quaternion.identity);
+                else obj = PoolManageMent.Generate(NormalCell, Where, Quaternion.identity);
                 obj.GetComponent<Cell>().value = CellValueCheck;
                 return obj;
             case 3:
-                if(Cell.DeathGene) obj = Instantiate(DeathCell, Where, Quaternion.identity);
-                else obj = Instantiate(NormalCell, Where, Quaternion.identity);
+                if(Cell.DeathGene) obj = PoolManageMent.Generate(DeathCell, Where, Quaternion.identity);
+                else obj = PoolManageMent.Generate(NormalCell, Where, Quaternion.identity);
                 obj.GetComponent<Cell>().value = CellValueCheck;
                 return obj;
             case 4:
-                obj = Instantiate(DoubleCell, Where, Quaternion.identity);
+                obj = PoolManageMent.Generate(DoubleCell, Where, Quaternion.identity);
                 obj.GetComponent<Cell>().value = CellValueCheck;
                 return obj;
             case 5:                
-                obj = Instantiate(LockCell, Where, Quaternion.identity);
+                obj = PoolManageMent.Generate(LockCell, Where, Quaternion.identity);
                 obj.GetComponent<Cell>().value = CellValueCheck;
                 return obj;
             case 6:
-                if(Cell.HealGene) obj = Instantiate(HealCell, Where, Quaternion.identity);
-                else obj = Instantiate(NormalCell, Where, Quaternion.identity);
+                if(Cell.HealGene) obj = PoolManageMent.Generate(HealCell, Where, Quaternion.identity);
+                else obj = PoolManageMent.Generate(NormalCell, Where, Quaternion.identity);
                 obj.GetComponent<Cell>().value = CellValueCheck;
                 return obj;
             case 7:
-                obj = Instantiate(FeverCell, Where, Quaternion.identity);
+                obj = PoolManageMent.Generate(FeverCell, Where, Quaternion.identity);
                 obj.GetComponent<Cell>().value = CellValueCheck;
                 return obj;
             case 8:
-                obj = Instantiate(LineGaroCell, Where, Quaternion.identity);
+                obj = PoolManageMent.Generate(LineGaroCell, Where, Quaternion.identity);
                 obj.GetComponent<Cell>().value = CellValueCheck;
                 return obj;
             case 9:
-                if (Cell.BuffGene) obj = Instantiate(BuffCell, Where, Quaternion.identity);
-                else obj = Instantiate(NormalCell, Where, Quaternion.identity);                
+                if (Cell.BuffGene) obj = PoolManageMent.Generate(BuffCell, Where, Quaternion.identity);
+                else obj = PoolManageMent.Generate(NormalCell, Where, Quaternion.identity);                
                 obj.GetComponent<Cell>().value = CellValueCheck;
                 return obj;
             default:

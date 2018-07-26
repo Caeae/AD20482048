@@ -472,10 +472,10 @@ public class MovingScript : MonoBehaviour {
         //toDestroy.SetActive(false);
         //Destroy(toUpgrade);
         //toUpgrade.SetActive(false);
+        GameManager.Cellsis.Remove(toUpgrade);
+        GameManager.Cellsis.Remove(toDestroy);
         PoolManager.DeleteCell(toDestroy);
         PoolManager.DeleteCell(toUpgrade);
-        //GameManager.Cellsis.Remove(toUpgrade);
-        //GameManager.Cellsis.Remove(toDestroy);
         float Count = toUpgrade.GetComponent<Cell>().value;
         GameObject newCell = PoolManager.Generate(ObjCell, toUpgradePosition, Quaternion.identity);
         GameManager.Cellsis.Add(newCell);
