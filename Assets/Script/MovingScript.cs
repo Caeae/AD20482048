@@ -15,13 +15,13 @@ public class MovingScript : MonoBehaviour {
     public static bool gameover = false;
     int i=0, j=0;
     int Garo = 4;
-    int Sero = 4;
-    public static float ScoreHap = 0;
+    int Sero = 4;    
     PoolSystem PoolManager;
+    GameObject LockCellGene;
     // Use this for initialization
     void Start() {
         PoolManager = GameObject.Find("CellManageMent").GetComponent<PoolSystem>();
-
+        LockCellGene = GameObject.Find("LockCell");
     }
 
     // Update is called once per frame
@@ -477,13 +477,14 @@ public class MovingScript : MonoBehaviour {
         PoolManager.DeleteCell(toDestroy);
         PoolManager.DeleteCell(toUpgrade);
         float Count = toUpgrade.GetComponent<Cell>().value;
-        GameObject newCell = PoolManager.Generate(ObjCell, toUpgradePosition, Quaternion.identity);
+        GameObject GeneCell = ObjCell;
+        if (Random.Range(0, 100) > 50) GeneCell = LockCellGene;   //98
+        GameObject newCell = PoolManager.Generate(GeneCell, toUpgradePosition, Quaternion.identity);
         GameManager.Cellsis.Add(newCell);
         Cell cells = newCell.GetComponent<Cell>();
         cells.upgradedThisTurn = true;
         cells.Activation = false;
-        cells.GetComponent<Cell>().value = Count * 2;
-        ScoreHap += cells.GetComponent<Cell>().value;
+        cells.GetComponent<Cell>().value = Count * 2;        
         GameManager.Byte += cells.GetComponent<Cell>().value;
     }
 

@@ -57,6 +57,7 @@ public class TurnManager : MonoBehaviour {
                 GameManager.sangtae = GameManager.State.Loaded;
                 GameManager.Cellsis.Clear();
                 GameManager.turn = 0;
+                GameManager.Health = 100f;
                 GameManager.Byte = 0;
             }
             else if (Input.GetKeyDown(KeyCode.Escape))
