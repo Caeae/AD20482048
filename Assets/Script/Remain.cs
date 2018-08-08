@@ -16,11 +16,10 @@ public class Remain : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        MovingScript.ScoreHap = GameManager.Byte;
         Cex.text = GameManager.RestCellleft.ToString();
         Turn.text = GameManager.turn.ToString();
         Score.text = GameManager.Byte.ToString();
         HealthBar.value = GameManager.Health;
-    }
-
-    
+    }    
 }

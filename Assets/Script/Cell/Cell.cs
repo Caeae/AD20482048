@@ -22,16 +22,12 @@ public class Cell : MonoBehaviour {
     private void Start()
     {
         EmptyCell = GameObject.Find("NoCell");
-        LockCell = GameObject.Find("LockCell");                    
-        DeathGene = true;
-        LockGene = true;
-        NukeGene = true;
-        HealGene = true;
-        BuffGene = true;
+        LockCell = GameObject.Find("LockCell");       
+
 }
     void Update()    {
         Searching();
-        /*if (BiggestNumber >= 64) HealGene = true;
+        if (BiggestNumber >= 64) HealGene = true;
         else HealGene = false;
         if (BiggestNumber >= 128) NukeGene = true;
         else NukeGene = false;
@@ -44,7 +40,7 @@ public class Cell : MonoBehaviour {
                 GameObject obj = GetObjectAtGridPosition(i, j);
                 if (obj == LockCell) LockGene = false;
                 else LockGene = true;
-            }*/
+            }
     }
 
 

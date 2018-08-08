@@ -15,7 +15,8 @@ public class MovingScript : MonoBehaviour {
     public static bool gameover = false;
     int i=0, j=0;
     int Garo = 4;
-    int Sero = 4;    
+    int Sero = 4;
+    public static float ScoreHap = 0;
     PoolSystem PoolManager;
     GameObject LockCellGene;
     // Use this for initialization
@@ -463,29 +464,28 @@ public class MovingScript : MonoBehaviour {
 
     private void UpgradeCell(GameObject toDestroy, Cell destroyCell, GameObject toUpgrade, Cell upgradeCell)
     {
-        Vector3 toUpgradePosition = toUpgrade.transform.position;        
+        Vector3 toUpgradePosition = toUpgrade.transform.position;
         object DCT = destroyCell.GetType();
         object UCT = upgradeCell.GetType();
         destroyCell.Activation = true;
         upgradeCell.Activation = true;
-        //Destroy(toDestroy);
-        //toDestroy.SetActive(false);
-        //Destroy(toUpgrade);
-        //toUpgrade.SetActive(false);
         GameManager.Cellsis.Remove(toUpgrade);
         GameManager.Cellsis.Remove(toDestroy);
         PoolManager.DeleteCell(toDestroy);
         PoolManager.DeleteCell(toUpgrade);
         float Count = toUpgrade.GetComponent<Cell>().value;
         GameObject GeneCell = ObjCell;
-        if (Random.Range(0, 100) > 50) GeneCell = LockCellGene;   //98
+        if (Random.Range(0, 100) > 98) { GeneCell = LockCellGene;   //98
+            Debug.Log("LockCell 생성");
+        }
         GameObject newCell = PoolManager.Generate(GeneCell, toUpgradePosition, Quaternion.identity);
+        //GameObject newCell = PoolManager.Generate(GeneCell, toUpgradePosition, Quaternion.identity);
         GameManager.Cellsis.Add(newCell);
         Cell cells = newCell.GetComponent<Cell>();
         cells.upgradedThisTurn = true;
         cells.Activation = false;
         cells.GetComponent<Cell>().value = Count * 2;        
-        GameManager.Byte += cells.GetComponent<Cell>().value;
+        ScoreHap += cells.GetComponent<Cell>().value;        
     }
 
     void SearchHighValue()

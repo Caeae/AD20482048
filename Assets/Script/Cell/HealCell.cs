@@ -12,7 +12,10 @@ public class HealCell : Cell {
     {
         cell.text = value.ToString();
         
+    
         if (Activation){
+            Debug.Log("Activated");
+
             GameManager.Health += 15;
             Activation = false;
         }

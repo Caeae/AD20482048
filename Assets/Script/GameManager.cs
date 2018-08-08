@@ -169,7 +169,7 @@ public class GameManager : MonoBehaviour
         GenerateRandomCell();
         GenerateRandomCell();
     }
-    private void UpgradeCell(GameObject toDestroy, Cell destroyCell, GameObject toUpgrade, Cell upgradeCell)
+    /*private void UpgradeCell(GameObject toDestroy, Cell destroyCell, GameObject toUpgrade, Cell upgradeCell)
     {
         Vector3 toUpgradePosition = toUpgrade.transform.position;
         Destroy(toDestroy);
@@ -184,7 +184,7 @@ public class GameManager : MonoBehaviour
         celll.GetComponent<Cell>().value = Count * 2;
         Byte += celll.GetComponent<Cell>().value;
     }
-
+    */
     //초기에 만들 랜덤타일 1개
     public void GenerateRandomCell()
     {
@@ -275,35 +275,38 @@ public class GameManager : MonoBehaviour
 
     public void MoveCellSaveToForward()
     {
-        //데이터 구조를 큐 형식으로 사용해야하기 때문에, for문의 n이 역주행중.
-        for (int n = 19; n >= 0; n--) for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++)
+        for (int n = 19; n >= 0; n--)
+        {
+            Byte_Save[n + 1] = Byte_Save[n];
+            for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++)
                 {
                     Cell_save[n + 1, i, j] = Cell_save[n, i, j];
-                    Byte_Save[n + 1] = Byte_Save[n];
+
                 }
+        }
         for (i = 0; i < 4; i++) for (j = 0; j < 4; j++)
             {
                 GameObject Obj = GetObjectAtGridPosition(i, j);
                 Cell ObjCelll = Obj.GetComponent<Cell>();
                 if (Obj != EmptyCell) Cell_save[0, i, j] = ObjCelll.value;
                 else Cell_save[0, i, j] = 0;
-                Byte_Save[0] = Byte;
             }
-        
+        Byte_Save[0] = Byte;
     }
 
     public void MoveCellLoadToBack()
     {
         //바뀌는 부분은 n이 정주행한다는 것, cellSave[20, i, j]가 0으로 다 바뀐다는것.
-        for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++)     {
-                for (int n = 0; n < 20; n++)    {
-                    Cell_save[n, i, j] = Cell_save[n + 1, i, j];
-                    Byte_Save[n] = Byte_Save[n + 1];
-                }                
-                Cell_save[20, i, j] = 0;
-                Byte_Save[20] = 0;
-            }
-        
+        for (int n = 0; n < 20; n++){
+            Byte_Save[n] = Byte_Save[n + 1];            
+            for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++){
+                    {
+                        Cell_save[n, i, j] = Cell_save[n + 1, i, j];
+                        Cell_save[20, i, j] = 0;
+                    }                    
+                    Byte_Save[20] = 0;
+                }
+        }
         for (i = 0; i < 4; i++) for (j = 0; j < 4; j++)   {
                 GameObject Obj = GetObjectAtGridPosition(i, j);
                 if (Cell_save[0, i, j] != 0 && Obj == EmptyCell)
@@ -321,9 +324,9 @@ public class GameManager : MonoBehaviour
                 else if (Cell_save[0, i, j] != 0 && Obj != EmptyCell)
                 {                    
                     Obj.GetComponent<Cell>().value = Cell_save[0, i, j];
-                }
-                Byte = Byte_Save[0];
-            }
+                }                
+            }        
+        Byte = Byte_Save[0];        
         turn = turn - 1;
         //이후 cellSave[0]에 맞춰서 현재 보드의 상황을 변경하면 undo가 돌아감.
     }

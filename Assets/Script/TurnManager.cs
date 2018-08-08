@@ -54,11 +54,11 @@ public class TurnManager : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.R))
             {
                 SceneManager.LoadScene("game");
-                GameManager.sangtae = GameManager.State.Loaded;
                 GameManager.Cellsis.Clear();
                 GameManager.turn = 0;
                 GameManager.Health = 100f;
                 GameManager.Byte = 0;
+                GameManager.sangtae = GameManager.State.Loaded;                
             }
             else if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -74,15 +74,16 @@ public class TurnManager : MonoBehaviour {
         else if (GameManager.sangtae == GameManager.State.CheckingMatches)
         {
             GameSystem.SpecificGen();
-            
+            Debug.Log(GameManager.Cellsis.Count);
             if (GameSystem.CheckForMovesLeft())
             {
                 GameSystem.ReadyCellsForUpgrading();
                 GameManager.turn++;
                 Undostack = 20;
-                GameSystem.MoveCellSaveToForward();
+                GameManager.Byte = MovingScript.ScoreHap;
+                GameSystem.MoveCellSaveToForward();                
                 GameManager.sangtae = GameManager.State.GenerateCell;
-
+                
             }
             else
             {
