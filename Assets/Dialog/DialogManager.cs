@@ -15,7 +15,6 @@ public class DialogManager : MonoBehaviour {
     void Start () {
         i = 0;
         text = GetComponent<Text>();
-        //string convertTxt = System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("contents"));
         textValue = System.IO.File.ReadAllLines(SampleDialog);
     }
 	
