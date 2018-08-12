@@ -36,12 +36,12 @@ public class Cell : MonoBehaviour {
         else BuffGene = false;
         if (GameManager.Health <= 30) DeathGene = true;        
         else DeathGene = false;*/
-        for(int i=0; i<4;i++) for(int j = 0; j < 4; j++)
-            {
-                GameObject obj = GetObjectAtGridPosition(i, j);
-                if (obj.tag == "LockCell") LockGene = false;
-                else LockGene = true;
-            }
+
+        foreach (var obj in GameManager.Cellsis) {
+            if (obj.tag == "LockCell") LockGene = true;
+            
+            else LockGene = false;
+        }
     }
 
 
