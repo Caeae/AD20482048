@@ -17,12 +17,10 @@ public class MovingScript : MonoBehaviour {
     int Garo = 4;
     int Sero = 4;
     public static float ScoreHap = 0;
-    PoolSystem PoolManager;
-    GameObject LockCellGene;
+    PoolSystem PoolManager;    
     // Use this for initialization
     void Start() {
-        PoolManager = GameObject.Find("CellManageMent").GetComponent<PoolSystem>();
-        LockCellGene = GameObject.Find("LockCell");
+        PoolManager = GameObject.Find("CellManageMent").GetComponent<PoolSystem>();        
     }
 
     // Update is called once per frame
@@ -78,7 +76,7 @@ public class MovingScript : MonoBehaviour {
             {
                 GameObject obj = GetObjectAtGridPosition(x, y);
                 //if (obj == noTile)
-                if (obj == EmptyCell)
+                if (obj == EmptyCell || obj.tag =="LockCell")
                 {
                     continue;
                 }
@@ -132,7 +130,7 @@ public class MovingScript : MonoBehaviour {
                         {
                             Cell thatCell = hitObject.GetComponent<Cell>();
                             Cell thisCell = obj.GetComponent<Cell>();
-                            if (CanUpgrade(thisCell, thatCell) && thisCell.value >= 16)
+                            if (LockCanUpgrade(thisCell, thatCell))
                             {
                                 UpgradeCell(obj, thisCell, hitObject, thatCell);
                                 hasMoved = true;
@@ -168,7 +166,7 @@ public class MovingScript : MonoBehaviour {
             {
                 GameObject obj = GetObjectAtGridPosition(x, y);
                 //if (obj == noTile)
-                if (obj == EmptyCell)
+                if (obj == EmptyCell || obj.tag =="LockCell")
                 {
                     continue;
                 }
@@ -221,7 +219,7 @@ public class MovingScript : MonoBehaviour {
                         {
                             Cell thatCell = hitObject.GetComponent<Cell>();
                             Cell thisCell = obj.GetComponent<Cell>();
-                            if (CanUpgrade(thisCell, thatCell) && thisCell.value >= 16)
+                            if (LockCanUpgrade(thisCell, thatCell))
                             {
                                 UpgradeCell(obj, thisCell, hitObject, thatCell);
                                 hasMoved = true;
@@ -257,7 +255,7 @@ public class MovingScript : MonoBehaviour {
             {
                 GameObject obj = GetObjectAtGridPosition(x, y);
                 //if (obj == noTile)
-                if (obj == EmptyCell)
+                if (obj == EmptyCell || obj.tag =="LockCell")
                 {
                     continue;
                 }
@@ -313,7 +311,7 @@ public class MovingScript : MonoBehaviour {
                         else if (hitObject.tag == "LockCell") {
                             Cell thatCell = hitObject.GetComponent<Cell>();
                             Cell thisCell = obj.GetComponent<Cell>();
-                            if (CanUpgrade(thisCell, thatCell)&&thisCell.value >=16) {
+                            if (LockCanUpgrade(thisCell, thatCell)) {
                                 UpgradeCell(obj, thisCell, hitObject, thatCell);
                                 hasMoved = true;
                             }
@@ -348,7 +346,7 @@ public class MovingScript : MonoBehaviour {
             {
                 GameObject obj = GetObjectAtGridPosition(x, y);
                 //if (obj == noTile)
-                if (obj == EmptyCell)
+                if (obj == EmptyCell || obj.tag =="LockCell")
                 {
                     continue;
                 }
@@ -396,27 +394,23 @@ public class MovingScript : MonoBehaviour {
                                 hasMoved = true;
                             }
                         }
-                        else if (hitObject.tag == "LockCell")
-                        {
+                        else if (hitObject.tag == "LockCell") {
                             Cell thatCell = hitObject.GetComponent<Cell>();
                             Cell thisCell = obj.GetComponent<Cell>();
-                            if (CanUpgrade(thisCell, thatCell) && thisCell.value >= 16)
-                            {
+                            if (LockCanUpgrade(thisCell, thatCell)) {
                                 UpgradeCell(obj, thisCell, hitObject, thatCell);
                                 hasMoved = true;
                             }
                             Vector3 newPosition = hitObject.transform.position;
                             newPosition.y += 1f;
-                            //newPosition.y -= spaceBetweenTiles;
+                            
                             //부딪힌 자리와 자신의 자리가 비슷하다면
-                            if (!Mathf.Approximately(obj.transform.position.y, newPosition.y))
-                            {
+                            if (!Mathf.Approximately(obj.transform.position.y, newPosition.y)) {
                                 //그 부딪힌 위치로 지정함
 
                                 obj.transform.position = newPosition;
                                 hasMoved = true;
                             }
-
                         }
                     }
                 }
@@ -427,16 +421,13 @@ public class MovingScript : MonoBehaviour {
 
     }
     #endregion
-    private GameObject GetObjectAtGridPosition(int x, int y)
-    {
+    private GameObject GetObjectAtGridPosition(int x, int y) {
         RaycastHit2D hit = Physics2D.Raycast(CellToFloat(x, y), Vector2.right, BoardX);
 
-        if (hit && hit.collider.gameObject.GetComponent<Cell>() != null)
-        {
+        if (hit && hit.collider.gameObject.GetComponent<Cell>() != null) {
             return hit.collider.gameObject;
         }
-        else
-        {
+        else {
             return EmptyCell;
         }
     }
@@ -447,26 +438,26 @@ public class MovingScript : MonoBehaviour {
         return (thisCell.value == thatCell.value && !thisCell.upgradedThisTurn && !thatCell.upgradedThisTurn);
     }
 
+    private bool LockCanUpgrade(Cell thisCell, Cell thatCell)
+    { // 숫자 16이상일때 합치게 함
+        return (thisCell.value >= 16 && !thisCell.upgradedThisTurn && !thatCell.upgradedThisTurn);
+    }
+
     private void ReadyCellsForUpgrading()
     {
-        foreach (var obj in GameManager.Cellsis)
-        {
+        foreach (var obj in GameManager.Cellsis) {
             Cell block = obj.GetComponent<Cell>();
             block.upgradedThisTurn = false;
         }
     }
 
 
-    private static Vector2 CellToFloat(int x, int y)
-    {
+    private static Vector2 CellToFloat(int x, int y) {
         return new Vector2(x - 1.5f, 1.5f - y);
     }
 
-    private void UpgradeCell(GameObject toDestroy, Cell destroyCell, GameObject toUpgrade, Cell upgradeCell)
-    {
-        Vector3 toUpgradePosition = toUpgrade.transform.position;
-        object DCT = destroyCell.GetType();
-        object UCT = upgradeCell.GetType();
+    private void UpgradeCell(GameObject toDestroy, Cell destroyCell, GameObject toUpgrade, Cell upgradeCell) {
+        Vector3 toUpgradePosition = toUpgrade.transform.position;        
         destroyCell.Activation = true;
         upgradeCell.Activation = true;
         GameManager.Cellsis.Remove(toUpgrade);
@@ -474,13 +465,9 @@ public class MovingScript : MonoBehaviour {
         PoolManager.DeleteCell(toDestroy);
         PoolManager.DeleteCell(toUpgrade);
         float Count = toUpgrade.GetComponent<Cell>().value;
-        GameObject GeneCell = ObjCell;
-        if (Random.Range(0, 100) > 98) { GeneCell = LockCellGene;   //98
-            Debug.Log("LockCell 생성");
-        }
-        GameObject newCell = PoolManager.Generate(GeneCell, toUpgradePosition, Quaternion.identity);
-        //GameObject newCell = PoolManager.Generate(GeneCell, toUpgradePosition, Quaternion.identity);
-        GameManager.Cellsis.Add(newCell);
+        GameObject newCell;
+        if (Random.Range(0, 100) < 2 && Cell.LockGene) newCell = PoolManager.LockGenerate(toUpgradePosition, Quaternion.identity);      
+        else newCell = PoolManager.Generate(ObjCell, toUpgradePosition, Quaternion.identity);        
         Cell cells = newCell.GetComponent<Cell>();
         cells.upgradedThisTurn = true;
         cells.Activation = false;

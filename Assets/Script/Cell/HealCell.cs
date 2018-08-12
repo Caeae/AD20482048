@@ -13,9 +13,7 @@ public class HealCell : Cell {
         cell.text = value.ToString();
         
     
-        if (Activation){
-            Debug.Log("Activated");
-
+        if (Activation){            
             GameManager.Health += 15;
             Activation = false;
         }

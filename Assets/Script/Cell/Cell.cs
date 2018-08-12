@@ -15,30 +15,31 @@ public class Cell : MonoBehaviour {
     public static bool NukeGene = false;
     public static bool HealGene = false;
     public static bool BuffGene = false;
-    GameObject EmptyCell;
-    GameObject LockCell;
+    GameObject EmptyCell;    
     float BiggestNumber=0;
 
     private void Start()
     {
-        EmptyCell = GameObject.Find("NoCell");
-        LockCell = GameObject.Find("LockCell");       
-
-}
+        EmptyCell = GameObject.Find("NoCell");        
+        DeathGene = true;
+        NukeGene = true;
+        HealGene = true;
+        BuffGene = true;
+    }
     void Update()    {
         Searching();
-        if (BiggestNumber >= 64) HealGene = true;
+        /*if (BiggestNumber >= 64) HealGene = true;
         else HealGene = false;
         if (BiggestNumber >= 128) NukeGene = true;
         else NukeGene = false;
         if (BiggestNumber >= 256) BuffGene = true;
         else BuffGene = false;
         if (GameManager.Health <= 30) DeathGene = true;        
-        else DeathGene = false;
+        else DeathGene = false;*/
         for(int i=0; i<4;i++) for(int j = 0; j < 4; j++)
             {
                 GameObject obj = GetObjectAtGridPosition(i, j);
-                if (obj == LockCell) LockGene = false;
+                if (obj.tag == "LockCell") LockGene = false;
                 else LockGene = true;
             }
     }
