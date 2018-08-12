@@ -466,7 +466,7 @@ public class MovingScript : MonoBehaviour {
         PoolManager.DeleteCell(toUpgrade);
         float Count = toUpgrade.GetComponent<Cell>().value;
         GameObject newCell;
-        if (Random.Range(0, 100) < 2 && Cell.LockGene) newCell = PoolManager.LockGenerate(toUpgradePosition, Quaternion.identity);
+        if (Random.Range(0, 100) < 2 && Cell.LockGene) { newCell = PoolManager.LockGenerate(toUpgradePosition, Quaternion.identity); Cell.LockGene = false; }
         else newCell = PoolManager.Generate(ObjCell, toUpgradePosition, Quaternion.identity);        
         Cell cells = newCell.GetComponent<Cell>();
         cells.upgradedThisTurn = true;
@@ -486,6 +486,7 @@ public class MovingScript : MonoBehaviour {
         PoolManager.DeleteCell(toUpgrade);
         float Count = toUpgrade.GetComponent<Cell>().value;
         GameObject newCell = PoolManager.Generate(ObjCell, toUpgradePosition, Quaternion.identity);
+        Cell.LockGene = true;
         Cell cells = newCell.GetComponent<Cell>();
         cells.upgradedThisTurn = true;
         cells.Activation = false;

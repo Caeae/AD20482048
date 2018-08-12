@@ -26,7 +26,8 @@ public class Cell : MonoBehaviour {
         HealGene = true;
         BuffGene = true;
     }
-    void Update()    {
+    void Update()
+    {
         Searching();
         /*if (BiggestNumber >= 64) HealGene = true;
         else HealGene = false;
@@ -35,13 +36,7 @@ public class Cell : MonoBehaviour {
         if (BiggestNumber >= 256) BuffGene = true;
         else BuffGene = false;
         if (GameManager.Health <= 30) DeathGene = true;        
-        else DeathGene = false;*/
-
-        foreach (var obj in GameManager.Cellsis) {
-            if (obj.tag == "LockCell") LockGene = true;
-            
-            else LockGene = false;
-        }
+        else DeathGene = false;*/        
     }
 
 
