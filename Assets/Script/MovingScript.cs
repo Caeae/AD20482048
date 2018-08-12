@@ -457,7 +457,7 @@ public class MovingScript : MonoBehaviour {
     }
 
     private void UpgradeCell(GameObject toDestroy, Cell destroyCell, GameObject toUpgrade, Cell upgradeCell) {
-        Vector3 toUpgradePosition = toUpgrade.transform.position;        
+        Vector3 toUpgradePosition = toUpgrade.transform.position;
         destroyCell.Activation = true;
         upgradeCell.Activation = true;
         GameManager.Cellsis.Remove(toUpgrade);
@@ -466,13 +466,32 @@ public class MovingScript : MonoBehaviour {
         PoolManager.DeleteCell(toUpgrade);
         float Count = toUpgrade.GetComponent<Cell>().value;
         GameObject newCell;
-        if (Random.Range(0, 100) < 2 && Cell.LockGene) newCell = PoolManager.LockGenerate(toUpgradePosition, Quaternion.identity);      
+        if (Random.Range(0, 100) < 2 && Cell.LockGene) { newCell = PoolManager.LockGenerate(toUpgradePosition, Quaternion.identity); Cell.LockGene = false; }
         else newCell = PoolManager.Generate(ObjCell, toUpgradePosition, Quaternion.identity);        
         Cell cells = newCell.GetComponent<Cell>();
         cells.upgradedThisTurn = true;
         cells.Activation = false;
         cells.GetComponent<Cell>().value = Count * 2;        
         ScoreHap += cells.GetComponent<Cell>().value;        
+    }
+
+    private void UpgradeLockCell(GameObject toDestroy, Cell destroyCell, GameObject toUpgrade, Cell upgradeCell)
+    {
+        Vector3 toUpgradePosition = toUpgrade.transform.position;
+        destroyCell.Activation = true;
+        upgradeCell.Activation = true;
+        GameManager.Cellsis.Remove(toUpgrade);
+        GameManager.Cellsis.Remove(toDestroy);
+        PoolManager.DeleteCell(toDestroy);
+        PoolManager.DeleteCell(toUpgrade);
+        float Count = toUpgrade.GetComponent<Cell>().value;
+        GameObject newCell = PoolManager.Generate(ObjCell, toUpgradePosition, Quaternion.identity);
+        Cell.LockGene = true;
+        Cell cells = newCell.GetComponent<Cell>();
+        cells.upgradedThisTurn = true;
+        cells.Activation = false;
+        cells.GetComponent<Cell>().value = Count * 2;
+        ScoreHap += cells.GetComponent<Cell>().value;
     }
 
     void SearchHighValue()

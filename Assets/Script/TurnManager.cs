@@ -50,7 +50,7 @@ public class TurnManager : MonoBehaviour {
         }
         else if (GameManager.sangtae == GameManager.State.WaitingForInput)
         {
-            
+            Debug.Log(Cell.LockGene);
             if (Input.GetKeyDown(KeyCode.R)) {
                 SceneManager.LoadScene("game");
                 GameManager.Cellsis.Clear();
