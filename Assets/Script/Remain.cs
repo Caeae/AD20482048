@@ -9,6 +9,7 @@ public class Remain : MonoBehaviour {
     public Text Turn;
     public Text Score;
     public Slider HealthBar;
+    public Slider EnemyHealbar;
     // Use this for initialization
     void Start () {
 		
@@ -21,5 +22,7 @@ public class Remain : MonoBehaviour {
         Turn.text = GameManager.turn.ToString();
         Score.text = GameManager.Byte.ToString();
         HealthBar.value = GameManager.Health;
+        EnemyHealbar.maxValue = Enemy.ConstHealth;
+        EnemyHealbar.value = Enemy.EnemyHealth;
     }    
 }

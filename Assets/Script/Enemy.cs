@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
     
-    static float EnemyHealth = 2496f;
+    public static float EnemyHealth = 4352f;
+    public static float ConstHealth = 4352;
 	// Use this for initialization
 	void Start () {
 		
@@ -12,9 +13,7 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //EnemyDeath();
-        EnemyHealth = 2496 - GameManager.Byte;
-        
+        EnemyHealth = ConstHealth - GameManager.Byte;        
 	}
     public static void EnemyHealthRe(float a)
     {

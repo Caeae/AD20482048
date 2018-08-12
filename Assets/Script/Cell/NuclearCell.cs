@@ -9,8 +9,7 @@ public class NuclearCell : Cell {
     }
     void Update() {
         cell.text = value.ToString();    
-        if(Activation) {
-            Debug.Log("효과 발동하였습니다");
+        if(Activation) {            
             float BytePlus = this.GetComponent<Cell>().value;
             GameManager.Byte = GameManager.Byte + 128 + (BytePlus * 1.5f);
             Activation = false;

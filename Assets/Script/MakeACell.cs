@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MakeACell : MonoBehaviour {
-    int a = 1;
+public class MakeACell : MonoBehaviour {    
     const float BoardX = 0.2f;
     bool WasGenerate = false;
     public GameObject EmptyCell;
@@ -35,59 +34,60 @@ public class MakeACell : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {     
-        float HealthPerCent = 100 - (30 - GameManager.Health) / 3;
-        float HealCellGenerateP = 99 - (100 - GameManager.Health) / 25; // 99 - 4 = 95, 5%임
-        if (GameManager.sangtae == GameManager.State.GenerateCell) {
-
-           // Debug.Log("GenerateCell 진입");
+        float DCP = (30 - GameManager.Health) / 3; //통상 생길수 없음, 30밑으로 내려가면 0~10%
+        if (DCP < 0) DCP = 0;
+        float HCP = 1 + (GameManager.Health - 100) / 25; //1 +~4%, 최대 5%임
+        float Chance = Random.Range(0, 100);
+        int Randum = Random.Range(0, 100);
+        if (GameManager.sangtae == GameManager.State.GenerateCell) {      
             for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++)
                 {
                     GameObject obj = GetObjectAtGridPosition(i, j);
                     Vector3 CellWorld = GameManager.CellToFloat(i, j);
                     GameObject GeneCell;
-                    if (obj != EmptyCell)
+                    
+                    if (obj != EmptyCell)// && !obj.GetComponent<Cell>().IsSpecial) 
                     {
                         float CellValueCheck = obj.GetComponent<Cell>().value;
-                        while (!WasGenerate)
-                        {                        
-                            if (Random.Range(0,100) > HealthPerCent) { //HealthPerCent
+                        while (!WasGenerate) {
+                            if (Chance < DCP) { //DCP
+                                PoolManageMent.DeleteCell(obj);
+                                if (Cell.DeathGene) GeneCell = PoolManageMent.DeathGenerate(CellWorld, Quaternion.identity);
+                                else GeneCell = PoolManageMent.Generate(NormalCell, CellWorld, Quaternion.identity);
+                                GeneCell.GetComponent<Cell>().value = CellValueCheck;
+                                Debug.Log("DeathCell 생성");
+                                WasGenerate = true;
                                 
-                                PoolManageMent.DeleteCell(obj);
-                                if (Cell.DeathGene) GeneCell = PoolManageMent.Generate(DeathCell, CellWorld, Quaternion.identity);
-                                else GeneCell = PoolManageMent.Generate(NormalCell, CellWorld, Quaternion.identity);
-                                GeneCell.GetComponent<Cell>().value = CellValueCheck;
-//                                Debug.Log("DeathCell 생성");
-
-                                WasGenerate = true;
                             }                        
-                            else if (Random.Range(0,100) > 98) { //98
-
+                            else if (Randum < 2) { //DCP + 2                         
+                                Debug.Log(Randum);
                                 PoolManageMent.DeleteCell(obj);
-                                if (Cell.NukeGene) GeneCell = PoolManageMent.Generate(NuclearCell, CellWorld, Quaternion.identity);
+                                if (Cell.NukeGene) GeneCell = PoolManageMent.NuclearGenerate(CellWorld, Quaternion.identity);
                                 else GeneCell = PoolManageMent.Generate(NormalCell, CellWorld, Quaternion.identity);
-                                GeneCell.GetComponent<Cell>().value = CellValueCheck;
-                               // Debug.Log("NukeCell 생성");
+                                GeneCell.GetComponent<Cell>().value = CellValueCheck;                                
                                 WasGenerate = true;
+                                
                             }
-                            else if(Random.Range(0,100) >HealCellGenerateP) {//HealCellGenerateP
+                            else if(Chance < DCP+HCP+2) {//DCP + HCP + 2
 
                                 PoolManageMent.DeleteCell(obj);
-                                if (Cell.HealGene) GeneCell = PoolManageMent.Generate(HealCell, CellWorld, Quaternion.identity);
+                                if (Cell.HealGene) GeneCell = PoolManageMent.HealGenerate(CellWorld, Quaternion.identity);
                                 else GeneCell = PoolManageMent.Generate(NormalCell, CellWorld, Quaternion.identity);
-                               // Debug.Log("HealCell 생성");
+                                Debug.Log("HealCell 생성");
                                 GeneCell.GetComponent<Cell>().value = CellValueCheck;
                                 WasGenerate = true;
+                                
                             }
                         }
                         
                     }
                 }
-
+                
             GameManager.sangtae = GameManager.State.WaitingForInput;
             WasGenerate = false;
         }
     }
-
+    /*
     public GameObject GenerateCell(Vector3 Where, int c)
     {        
         int Count = Random.Range(0,100);
@@ -99,30 +99,27 @@ public class MakeACell : MonoBehaviour {
         
         switch (c) {            
             case 2:
-                if (Cell.NukeGene) obj = PoolManageMent.Generate(NuclearCell, Where, Quaternion.identity);
+                if (Cell.NukeGene) obj = PoolManageMent.NuclearGenerate(Where, Quaternion.identity);
                 else obj = PoolManageMent.Generate(NormalCell, Where, Quaternion.identity);
                 //Debug.Log("NukeCell 생성");
                 return obj;
             case 3:
-                if(Cell.DeathGene) obj = PoolManageMent.Generate(DeathCell, Where, Quaternion.identity);
+                if(Cell.DeathGene) obj = PoolManageMent.DeathGenerate(Where, Quaternion.identity);
                 else obj = PoolManageMent.Generate(NormalCell, Where, Quaternion.identity);
              //   Debug.Log("DeathCell 생성");
                 return obj;
             case 4:
-                obj = PoolManageMent.Generate(DoubleCell, Where, Quaternion.identity);
+                obj = PoolManageMent.DoubleGenerate(Where, Quaternion.identity);
                 
                 return obj;
-            case 5:                
-                obj = PoolManageMent.Generate(LockCell, Where, Quaternion.identity);
-                
-                return obj;
+            
             case 6:
-                if(Cell.HealGene) obj = PoolManageMent.Generate(HealCell, Where, Quaternion.identity);
+                if(Cell.HealGene) obj = PoolManageMent.HealGenerate(Where, Quaternion.identity);
                 else obj = PoolManageMent.Generate(NormalCell, Where, Quaternion.identity);
-              //  Debug.Log("HealCell 생성");
+              
                 return obj;
             case 7:
-                obj = PoolManageMent.Generate(FeverCell, Where, Quaternion.identity);
+                obj = PoolManageMent.FeverGenerate(Where, Quaternion.identity);
                 
                 return obj;
             case 8:
@@ -130,14 +127,14 @@ public class MakeACell : MonoBehaviour {
                 
                 return obj;
             case 9:
-                if (Cell.BuffGene) obj = PoolManageMent.Generate(BuffCell, Where, Quaternion.identity);
+                if (Cell.BuffGene) obj = PoolManageMent.BuffGenerate(Where, Quaternion.identity);
                 else obj = PoolManageMent.Generate(NormalCell, Where, Quaternion.identity);                
                 
                 return obj;
             default:
                 return EmptyCell;
         }
-    }
+    }*/
     void WorldSearch()
     {
         int i = 0, j = 0;

@@ -162,29 +162,14 @@ public class GameManager : MonoBehaviour
                     CellNumhapsan += ObjCelll.value;
                     ObjCelll.value = 0;
                     Cellsis.Remove(Obj);
-                    Destroy(Obj);
+                    PoolManager.DeleteCell(Obj);
                 }
             }
-        Byte += CellNumhapsan;
+        Byte += CellNumhapsan / 8 ;
         GenerateRandomCell();
         GenerateRandomCell();
     }
-    /*private void UpgradeCell(GameObject toDestroy, Cell destroyCell, GameObject toUpgrade, Cell upgradeCell)
-    {
-        Vector3 toUpgradePosition = toUpgrade.transform.position;
-        Destroy(toDestroy);
-        Destroy(toUpgrade);
-        Cellsis.Remove(toUpgrade);
-        Cellsis.Remove(toDestroy);
-        float Count = toUpgrade.GetComponent<Cell>().value;
-        GameObject newCell = Instantiate(ObjCell, toUpgradePosition, transform.rotation);
-        Cellsis.Add(newCell);
-        Cell celll = newCell.GetComponent<Cell>();
-        celll.upgradedThisTurn = true;
-        celll.GetComponent<Cell>().value = Count * 2;
-        Byte += celll.GetComponent<Cell>().value;
-    }
-    */
+
     //초기에 만들 랜덤타일 1개
     public void GenerateRandomCell()
     {
@@ -195,12 +180,10 @@ public class GameManager : MonoBehaviour
         int value;
         // 10%확률로 4가나옴
         float highOrLowChance = Random.Range(0f, 0.99f);
-        if (highOrLowChance >= 0.9f)
-        {
+        if (highOrLowChance >= 0.9f)  {
             value = 4;
         }
-        else
-        {
+        else {
             value = 2;
         }
 
@@ -217,17 +200,15 @@ public class GameManager : MonoBehaviour
                 found = true;
                 Vector2 worldPosition = CellToFloat(i, j);
                 GameObject obj;
-                if (value == 4) {
-                    //obj = GameObject.Instantiate(ObjCell, worldPosition, transform.rotation);
+                if (value == 4) {                    
                     obj = PoolManager.Generate(ObjCell, worldPosition, transform.rotation);
                     obj.GetComponent<Cell>().value = 4;
                 }
-                else {
-                    //obj = GameObject.Instantiate(ObjCell, worldPosition, transform.rotation);
+                else {                    
                     obj = PoolManager.Generate(ObjCell, worldPosition, transform.rotation);
                     obj.GetComponent<Cell>().value = 2;
                 }
-                Cellsis.Add(obj);
+                
             }
             i++;
             if (i >= Garo)
@@ -266,7 +247,7 @@ public class GameManager : MonoBehaviour
                                 obj.GetComponent<Cell>().value = 4;
                             }
                             Creating = true;
-                            Cellsis.Add(obj);
+                            
                         }
                     }
                 }

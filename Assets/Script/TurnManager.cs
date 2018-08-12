@@ -51,8 +51,7 @@ public class TurnManager : MonoBehaviour {
         else if (GameManager.sangtae == GameManager.State.WaitingForInput)
         {
             
-            if (Input.GetKeyDown(KeyCode.R))
-            {
+            if (Input.GetKeyDown(KeyCode.R)) {
                 SceneManager.LoadScene("game");
                 GameManager.Cellsis.Clear();
                 GameManager.turn = 0;
@@ -60,12 +59,10 @@ public class TurnManager : MonoBehaviour {
                 GameManager.Byte = 0;
                 GameManager.sangtae = GameManager.State.Loaded;                
             }
-            else if (Input.GetKeyDown(KeyCode.Escape))
-            {
+            else if (Input.GetKeyDown(KeyCode.Escape)) {
                 Application.Quit();
             }
-            else if (Input.GetKeyDown(KeyCode.Q))
-            {
+            else if (Input.GetKeyDown(KeyCode.Q)) {
                 GameManager.sangtae = GameManager.State.UndoFunction;
             }
 
@@ -73,8 +70,7 @@ public class TurnManager : MonoBehaviour {
         
         else if (GameManager.sangtae == GameManager.State.CheckingMatches)
         {
-            GameSystem.SpecificGen();
-            Debug.Log(GameManager.Cellsis.Count);
+            GameSystem.SpecificGen();            
             if (GameSystem.CheckForMovesLeft())
             {
                 GameSystem.ReadyCellsForUpgrading();
