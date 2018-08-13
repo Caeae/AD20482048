@@ -9,7 +9,7 @@ public class PoolSystem : MonoBehaviour{
     GameObject FeverCell;
     GameObject BuffCell;
     GameObject DoubleCell;
-
+    GameObject ObjCell;
     public Stack<GameObject> CellStack;
     Stack<GameObject> DeathStack;
     Stack<GameObject> NukeStack;
@@ -27,7 +27,8 @@ public class PoolSystem : MonoBehaviour{
         LockStack = new Stack<GameObject>();
         DoubleStack = new Stack<GameObject>();
         FeverStack = new Stack<GameObject>();
-        BuffStack = new Stack<GameObject>();      
+        BuffStack = new Stack<GameObject>();
+        ObjCell = GameObject.Find("Cell");
         DeathCell = GameObject.Find("DeathCell");
         NuclearCell = GameObject.Find("NuclearCell");
         HealCell = GameObject.Find("HealCell");
@@ -36,15 +37,15 @@ public class PoolSystem : MonoBehaviour{
         BuffCell = GameObject.Find("BuffCell");
         FeverCell = GameObject.Find("FeverCell");
     }    
-    public GameObject Generate(GameObject Object, Vector3 pos, Quaternion rot)
+    public GameObject Generate(Vector3 pos, Quaternion rot)
     {
         GameObject obj;
         if (CellStack.Count == 0) {
-            obj = GameObject.Instantiate(Object, pos, rot);
+            obj = GameObject.Instantiate(ObjCell, pos, rot);
         }
         else  {
             obj = CellStack.Pop();  //스택에서, 가장 최신에 입력한 데이터를 차례로 가져오는 함수 - 반대는 Push
-            if (obj == null) return Generate(Object, pos, rot);
+            if (obj == null) return Generate(pos, rot);
         }
         obj.transform.position = pos;
         obj.transform.rotation = rot;
@@ -169,12 +170,10 @@ public class PoolSystem : MonoBehaviour{
     public GameObject DoubleGenerate(Vector3 pos, Quaternion rot)
     {
         GameObject obj;
-        if (DoubleStack.Count == 0)
-        {
+        if (DoubleStack.Count == 0) {
             obj = GameObject.Instantiate(DoubleCell, pos, rot);
         }
-        else
-        {
+        else {
             obj = DoubleStack.Pop();
             if (obj == null) return DoubleGenerate(pos, rot);
         }
@@ -187,7 +186,14 @@ public class PoolSystem : MonoBehaviour{
 
 
     public void DeleteCell(GameObject obj) {
-        CellStack.Push(obj);
+        if (obj == LockCell) LockStack.Push(obj);
+        else if (obj == NuclearCell) NukeStack.Push(obj);
+        else if (obj == DeathCell) DeathStack.Push(obj);
+        else if (obj == HealCell) HealStack.Push(obj);
+        else if (obj == DoubleCell) DoubleStack.Push(obj);
+        else if (obj == BuffCell) BuffStack.Push(obj);
+        else if (obj == FeverCell) FeverStack.Push(obj);
+        else CellStack.Push(obj);
         GameManager.Cellsis.Remove(obj);
         obj.SetActive(false);
     }
