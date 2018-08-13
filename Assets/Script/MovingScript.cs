@@ -103,7 +103,6 @@ public class MovingScript : MonoBehaviour {
                             Vector3 newPosition = hitObject.transform.position;
                             newPosition.x += 1f;
                             //부딪힌 자리와 자신의 자리가 비슷하다면
-
                             if (!Mathf.Approximately(obj.transform.position.x, newPosition.x))
                             {
                                 //그 부딪힌 위치로 지정함
@@ -111,7 +110,6 @@ public class MovingScript : MonoBehaviour {
                                 obj.transform.position = newPosition;
                                 hasMoved = true;
                             }
-
                         }
                         //벽에 부딪히면
                         else if (hitObject.tag == "Wall")
@@ -132,7 +130,7 @@ public class MovingScript : MonoBehaviour {
                             Cell thisCell = obj.GetComponent<Cell>();
                             if (LockCanUpgrade(thisCell, thatCell))
                             {
-                                UpgradeCell(obj, thisCell, hitObject, thatCell);
+                                UpgradeLockCell(obj, thisCell, hitObject, thatCell);
                                 hasMoved = true;
                             }
                             Vector3 newPosition = hitObject.transform.position;
@@ -221,7 +219,7 @@ public class MovingScript : MonoBehaviour {
                             Cell thisCell = obj.GetComponent<Cell>();
                             if (LockCanUpgrade(thisCell, thatCell))
                             {
-                                UpgradeCell(obj, thisCell, hitObject, thatCell);
+                                UpgradeLockCell(obj, thisCell, hitObject, thatCell);
                                 hasMoved = true;
                             }
                             Vector3 newPosition = hitObject.transform.position;
@@ -312,7 +310,7 @@ public class MovingScript : MonoBehaviour {
                             Cell thatCell = hitObject.GetComponent<Cell>();
                             Cell thisCell = obj.GetComponent<Cell>();
                             if (LockCanUpgrade(thisCell, thatCell)) {
-                                UpgradeCell(obj, thisCell, hitObject, thatCell);
+                                UpgradeLockCell(obj, thisCell, hitObject, thatCell);
                                 hasMoved = true;
                             }
                             Vector3 newPosition = hitObject.transform.position;
@@ -398,7 +396,7 @@ public class MovingScript : MonoBehaviour {
                             Cell thatCell = hitObject.GetComponent<Cell>();
                             Cell thisCell = obj.GetComponent<Cell>();
                             if (LockCanUpgrade(thisCell, thatCell)) {
-                                UpgradeCell(obj, thisCell, hitObject, thatCell);
+                                UpgradeLockCell(obj, thisCell, hitObject, thatCell);
                                 hasMoved = true;
                             }
                             Vector3 newPosition = hitObject.transform.position;
@@ -460,14 +458,14 @@ public class MovingScript : MonoBehaviour {
         Vector3 toUpgradePosition = toUpgrade.transform.position;
         destroyCell.Activation = true;
         upgradeCell.Activation = true;
+        float Count = toUpgrade.GetComponent<Cell>().value;
         GameManager.Cellsis.Remove(toUpgrade);
         GameManager.Cellsis.Remove(toDestroy);
         PoolManager.DeleteCell(toDestroy);
-        PoolManager.DeleteCell(toUpgrade);
-        float Count = toUpgrade.GetComponent<Cell>().value;
+        PoolManager.DeleteCell(toUpgrade);        
         GameObject newCell;
         if (Random.Range(0, 100) < 2 && Cell.LockGene) { newCell = PoolManager.LockGenerate(toUpgradePosition, Quaternion.identity); Cell.LockGene = false; }
-        else newCell = PoolManager.Generate(ObjCell, toUpgradePosition, Quaternion.identity);        
+        else newCell = PoolManager.Generate(toUpgradePosition, Quaternion.identity);        
         Cell cells = newCell.GetComponent<Cell>();
         cells.upgradedThisTurn = true;
         cells.Activation = false;
@@ -475,8 +473,7 @@ public class MovingScript : MonoBehaviour {
         ScoreHap += cells.GetComponent<Cell>().value;        
     }
 
-    private void UpgradeLockCell(GameObject toDestroy, Cell destroyCell, GameObject toUpgrade, Cell upgradeCell)
-    {
+    private void UpgradeLockCell(GameObject toDestroy, Cell destroyCell, GameObject toUpgrade, Cell upgradeCell) { 
         Vector3 toUpgradePosition = toUpgrade.transform.position;
         destroyCell.Activation = true;
         upgradeCell.Activation = true;
@@ -485,13 +482,13 @@ public class MovingScript : MonoBehaviour {
         PoolManager.DeleteCell(toDestroy);
         PoolManager.DeleteCell(toUpgrade);
         float Count = toUpgrade.GetComponent<Cell>().value;
-        GameObject newCell = PoolManager.Generate(ObjCell, toUpgradePosition, Quaternion.identity);
-        Cell.LockGene = true;
+        GameObject newCell = PoolManager.Generate(toUpgradePosition, Quaternion.identity);        
         Cell cells = newCell.GetComponent<Cell>();
         cells.upgradedThisTurn = true;
         cells.Activation = false;
         cells.GetComponent<Cell>().value = Count * 2;
         ScoreHap += cells.GetComponent<Cell>().value;
+        Cell.LockGene = true;
     }
 
     void SearchHighValue()

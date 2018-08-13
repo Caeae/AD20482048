@@ -202,11 +202,11 @@ public class GameManager : MonoBehaviour
                 Vector2 worldPosition = CellToFloat(i, j);
                 GameObject obj;
                 if (value == 4) {                    
-                    obj = PoolManager.Generate(ObjCell, worldPosition, transform.rotation);
+                    obj = PoolManager.Generate(worldPosition, transform.rotation);
                     obj.GetComponent<Cell>().value = 4;
                 }
                 else {                    
-                    obj = PoolManager.Generate(ObjCell, worldPosition, transform.rotation);
+                    obj = PoolManager.Generate(worldPosition, transform.rotation);
                     obj.GetComponent<Cell>().value = 2;
                 }
                 
@@ -240,11 +240,11 @@ public class GameManager : MonoBehaviour
                             GameObject obj;
                             if (oneortwo <= 0.9f)
                             {//1,2가 나오는 랜덤함수에서 1이 나오면 2, 2가 나오면 4가 생성시킨다                    
-                                obj = PoolManager.Generate(ObjCell, worldPosition, transform.rotation);
+                                obj = PoolManager.Generate(worldPosition, transform.rotation);
                                 obj.GetComponent<Cell>().value = 2;
                             }
                             else  {
-                                obj = PoolManager.Generate(ObjCell, worldPosition, transform.rotation);
+                                obj = PoolManager.Generate(worldPosition, transform.rotation);
                                 obj.GetComponent<Cell>().value = 4;
                             }
                             Creating = true;
@@ -293,7 +293,7 @@ public class GameManager : MonoBehaviour
                 GameObject Obj = GetObjectAtGridPosition(i, j);
                 if (Cell_save[0, i, j] != 0 && Obj == EmptyCell)
                 {
-                    GameObject NewCell = PoolManager.Generate(ObjCell, CellToFloat(i, j), transform.rotation);
+                    GameObject NewCell = PoolManager.Generate(CellToFloat(i, j), transform.rotation);
                     Cellsis.Add(NewCell);
                     NewCell.GetComponent<Cell>().value = Cell_save[0, i, j];                    
                 }
