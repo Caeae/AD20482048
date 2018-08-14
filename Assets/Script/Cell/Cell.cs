@@ -21,22 +21,23 @@ public class Cell : MonoBehaviour {
     private void Start()
     {
         EmptyCell = GameObject.Find("NoCell");        
-        DeathGene = true;
-        NukeGene = true;
-        HealGene = true;
-        BuffGene = true;
+        //DeathGene = true;
+        //NukeGene = true;
+        //HealGene = true;
+        //BuffGene = true;
     }
     void Update()
     {
         Searching();
-        /*if (BiggestNumber >= 64) HealGene = true;
+        Debug.Log(BiggestNumber);
+        if (BiggestNumber >= 64) HealGene = true;
         else HealGene = false;
         if (BiggestNumber >= 128) NukeGene = true;
         else NukeGene = false;
         if (BiggestNumber >= 256) BuffGene = true;
         else BuffGene = false;
         if (GameManager.Health <= 30) DeathGene = true;        
-        else DeathGene = false;*/        
+        else DeathGene = false;        
     }
 
 

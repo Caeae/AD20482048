@@ -464,13 +464,14 @@ public class MovingScript : MonoBehaviour {
         PoolManager.DeleteCell(toDestroy);
         PoolManager.DeleteCell(toUpgrade);        
         GameObject newCell;
+        
         if (Random.Range(0, 100) < 2 && Cell.LockGene) { newCell = PoolManager.LockGenerate(toUpgradePosition, Quaternion.identity); Cell.LockGene = false; }
-        else newCell = PoolManager.Generate(toUpgradePosition, Quaternion.identity);        
+        else newCell = PoolManager.Generate(toUpgradePosition, Quaternion.identity);
         Cell cells = newCell.GetComponent<Cell>();
         cells.upgradedThisTurn = true;
         cells.Activation = false;
-        cells.GetComponent<Cell>().value = Count * 2;        
-        ScoreHap += cells.GetComponent<Cell>().value;        
+        cells.GetComponent<Cell>().value = Count * 2;
+        ScoreHap += cells.GetComponent<Cell>().value;
     }
 
     private void UpgradeLockCell(GameObject toDestroy, Cell destroyCell, GameObject toUpgrade, Cell upgradeCell) { 
@@ -480,26 +481,17 @@ public class MovingScript : MonoBehaviour {
         GameManager.Cellsis.Remove(toUpgrade);
         GameManager.Cellsis.Remove(toDestroy);
         PoolManager.DeleteCell(toDestroy);
-        PoolManager.DeleteCell(toUpgrade);
+        //PoolManager.DeleteCell(toUpgrade);
+        //Destroy(toDestroy);
+        Destroy(toUpgrade);
         float Count = toUpgrade.GetComponent<Cell>().value;
-        GameObject newCell = PoolManager.Generate(toUpgradePosition, Quaternion.identity);        
+        Debug.Log("락셀합체");
+        GameObject newCell = PoolManager.Generate(toUpgradePosition, Quaternion.identity);
         Cell cells = newCell.GetComponent<Cell>();
         cells.upgradedThisTurn = true;
         cells.Activation = false;
         cells.GetComponent<Cell>().value = Count * 2;
         ScoreHap += cells.GetComponent<Cell>().value;
         Cell.LockGene = true;
-    }
-
-    void SearchHighValue()
-    {
-        for(i=0; i<4;i++) for (j = 0; j < 4; j++)
-            {
-                GameObject Obj = GetObjectAtGridPosition(i, j);
-                if (Obj != null)
-                {
-
-                }
-            }
-    }
+    }    
 }
