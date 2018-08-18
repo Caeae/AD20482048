@@ -186,13 +186,19 @@ public class PoolSystem : MonoBehaviour{
 
 
     public void DeleteCell(GameObject obj) {
-        if (obj == LockCell) LockStack.Push(obj);
-        else if (obj == NuclearCell) NukeStack.Push(obj);
-        else if (obj == DeathCell) DeathStack.Push(obj);
-        else if (obj == HealCell) HealStack.Push(obj);
-        else if (obj == DoubleCell) DoubleStack.Push(obj);
-        else if (obj == BuffCell) BuffStack.Push(obj);
-        else if (obj == FeverCell) FeverStack.Push(obj);
+        if (obj.tag == "LockCell") { Debug.Log("LockPush"); LockStack.Push(obj); }
+        else if (obj == NuclearCell)
+        { Debug.Log("NukePush"); NukeStack.Push(obj); }
+        else if (obj == DeathCell)
+        { Debug.Log("DeathPush"); DeathStack.Push(obj); }
+        else if (obj == HealCell)
+        { Debug.Log("HealPush"); HealStack.Push(obj); }
+        else if (obj == DoubleCell)
+        { Debug.Log("DoublePush"); DoubleStack.Push(obj); }
+        else if (obj == BuffCell)
+        { Debug.Log("BuffPush"); BuffStack.Push(obj); }
+        else if (obj == FeverCell)
+        { Debug.Log("FeverPush"); FeverStack.Push(obj); }
         else CellStack.Push(obj);
         GameManager.Cellsis.Remove(obj);
         obj.SetActive(false);
